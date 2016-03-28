@@ -35,7 +35,7 @@ sudo gem install fpm
 sudo apt-get install rpm
 ```
 
-Then you need to install `nodejs` and `phantomjs` (1.9.8). See my other repos for that.
+Then you need to install `nodejs` and `phantomjs` (1.9.8). See my other repos for that if you are on pi2/raspbian wheezy.
 Be careful to install your `phantomjs` binary before the `npm install` step:
 npm will try to install `phantomjs` if it doesn't find `phantomjs` version 1.9.8
 in your path; unfortunately, because of this [issue](https://github.com/Medium/phantomjs/issues/376),
