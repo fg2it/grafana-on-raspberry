@@ -31,7 +31,7 @@ sudo gem install fpm
 #build .deb and .rpm
 sudo apt-get install rpm
 ```
-Then you need to install `nodejs` and `phantomjs` (1.9.8). See my other repos for that.
+Then you need to install `nodejs` and `phantomjs` (1.9.8). See my other repos for that if your on pi2/raspbian wheezy.
 
 Now, follow offical instructions up to the `grunt-cli` install:
 
