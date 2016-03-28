@@ -1,4 +1,4 @@
-# Grafana v2.1.2 release for raspberry pi
+# Grafana v2.1.2 release for raspberry pi 2
 Build from tag [v2.1.2](https://github.com/grafana/grafana/tree/v2.1.2).
 
 ## Main problems to overcome
