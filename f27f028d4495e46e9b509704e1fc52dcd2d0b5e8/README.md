@@ -1,4 +1,4 @@
-# Grafana for Raspberry Pi
+# Grafana for Raspberry Pi 2
 build from [f27f028](https://github.com/grafana/grafana/tree/f27f028d4495e46e9b509704e1fc52dcd2d0b5e8)
 commit without any change to source code but with a `phantomjs` binary working on arm.
 
