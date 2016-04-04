@@ -1,8 +1,19 @@
 # Grafana v2.1.2 release for raspberry pi 2
-Build from tag [v2.1.2](https://github.com/grafana/grafana/tree/v2.1.2).
+Build from tag [v2.1.2](https://github.com/grafana/grafana/tree/v2.1.2) with
+[this](https://github.com/fg2it/phantomjs-on-raspberry/tree/master/wheezy/2.0.1-development_as_1.9.8)
+`phantomjs` binary working on raspberry pi 2 running raspbian/wheezy.
+
+`go` version was 1.5, `nodejs` was 0.12.7, `npm` was 2.11.3 and `phantomjs` was
+2.0.1-dev dressed like 1.9.8.
+
+The packages here can be expected to work on raspbian/jessie too, except for
+features relying on `PhantomJS`.
+
+Should you follow the instructions below with the right binary for PhantomJS,
+you would end up with a fully functional build.
 
 ## Main problems to overcome
-- you need a recent version of `nodejs`.
+- you need a recent version of `nodejs` (>=0.12.0 should be fine; 0.12.7 is).
 - you may want to have `phantomjs`. See
 [#2683](https://github.com/grafana/grafana/issues/2683) for this issue. Having
 the right version of `phantomjs` binary allows a cleaner build and the feature
@@ -73,7 +84,13 @@ go run build.go build package     # 21m
 
 Packages are in `$GOPATH/src/github.com/grafana/grafana/dist`.
 
-See:
-- [gvm](https://github.com/moovweb/gvm)
+## Update
+Nodejs resumes its [official binaries](https://nodejs.org/dist/) for arm since
+v4.0.0. You should probably give it a try.
+
+## See:
 - [fpm](https://github.com/jordansissel/fpm)
 - [grafana](https://github.com/grafana/grafana/blob/v2.1.2/docs/sources/project/building_from_source.md)
+- [gvm](https://github.com/moovweb/gvm)
+- [nodejs](https://github.com/fg2it/nodejs-on-raspberry/tree/master/0.12.7) v0.12.7 for pi2
+- [phantomjs](https://github.com/fg2it/phantomjs-on-raspberry/tree/master/wheezy) pseudo v1.9.8 for pi2/wheezy
