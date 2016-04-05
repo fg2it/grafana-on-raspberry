@@ -82,5 +82,5 @@ v4.0.0. You should probably give it a try.
 - [fpm](https://github.com/jordansissel/fpm)
 - [grafana](http://docs.grafana.org/v2.1/project/building_from_source/)
 - [gvm](https://github.com/moovweb/gvm)
-- [nodejs](https://github.com/fg2it/nodejs-on-raspberry/tree/master/0.12.7) v0.12.7 for pi2
+- nodejs [v0.12.7](https://github.com/fg2it/nodejs-on-raspberry/tree/master/0.12.7) for pi2 and [official binaries](https://nodejs.org/dist/)
 - [phantomjs](https://github.com/fg2it/phantomjs-on-raspberry/tree/master/wheezy) pseudo v1.9.8 for pi2/wheezy

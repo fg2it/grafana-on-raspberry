@@ -12,6 +12,6 @@ if you are not confortable with unofficial packages.
 I expect the .deb packages work on wheezy and jessie : the only thing I am sure
 will fail is feature creating png files from your graph. For this, `grafana`
 relies on `PhantomJS` and the binaries included in these .deb won't work on both
-wheezy and jessie. Beside this, it should work but I didn' test it.
+wheezy and jessie. Beside this, it should work but I didn't test it.
 
 Grafana [license](https://github.com/grafana/grafana/blob/master/LICENSE.md).
