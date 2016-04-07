@@ -121,6 +121,7 @@ file, since on failure, it is not created.
 
 ## See:
 - [fpm](https://github.com/jordansissel/fpm)
+- [go](http://blog.hypriot.com/post/how-to-compile-go-on-arm/) by hypriot
 - [grafana](https://github.com/grafana/grafana/blob/v2.6.0/docs/sources/project/building_from_source.md)
 - [gvm](https://github.com/moovweb/gvm)
 - [nodejs](https://nodejs.org/dist/v4.4.1/node-v4.4.1-linux-armv7l.tar.xz) official binaries
