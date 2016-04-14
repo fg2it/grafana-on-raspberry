@@ -44,6 +44,31 @@ Moreover, having `phantomjs` allows a cleaner build since, otherwise, some tests
 will fail. You will have to modify the file `build.go` (look for the arg processing loop in main() and
 change `grunt("release")` to `grunt("--force","release")`) to ignore failures.
 
+Unfortunately, there are no official binary of phantomjs available for arm.
+
+### phantomjs/phantomjs-prebuild npm module
+The problem for `phantomjs` is that the npm module `phantomjs` (later renamed
+`phantomjs-prebuilt`) won't succeed on arm. It tries to install official binaries
+which don't exist for arm. If you already have `phantomjs` installed, it checks
+its version string against some specific version. 
+
+So, having a having `phantomjs` for your raspberry pi is not enough, it has to
+be the right version. Otherwise, the phantomjs npm module will reject it and
+fail.
+
+Depending on the grafana version you are trying to build and the npm version you
+are using, these issues take different flavors. The following general
+workaround seems to works in all the cases :
+- simply patch the `phantomjs` binary so it answers `phantomjs -v` accordingly
+  to what expect the npm module, so the npm module accepts the binary and
+  installs itself properly.
+- ensure the phantomjs/phantomjs-prebuild npm module install is right by hand.
+  Previously, I suggested to let the npm module fails and "finalize" the install
+  of this module by simply creating the missing `location.js` file with the
+  right content (see previous version of this README file). Here I suggest to
+  install the module by hand afterward.
+
+
 ## Instructions
 ### Install Dependencies
 ```bash
@@ -52,7 +77,7 @@ sudo apt-get install curl git ca-certificates
 sudo apt-get install binutils gcc make libc-dev
 sudo apt-get install ruby ruby-dev  # for fpm
 sudo apt-get install rpm            # for rpmbuild, used indirectly by grafana (call to fpm)
-sudo apt-get install libfontconfig1 libicu52 libjpeg62-turbo  # for my phantomjs binary !
+sudo apt-get install libfontconfig1 libicu52 libjpeg62-turbo libpng12-0 # for my phantomjs binary !
 ```
 Install go 1.5.2 from hypriot :
 ```bash
@@ -78,6 +103,16 @@ curl -L https://raw.githubusercontent.com/fg2it/phantomjs-on-raspberry/master/je
 sudo dpkg -i /tmp/phantomjs_2.0.0_armhf.deb
 ```
 
+### Patch PhantomJS
+Here is a way to patch your PhantomJS binary:
+```bash
+export PHJSOFFSET=$(grep -aboF `phantomjs -v` `which phantomjs`|cut -d':' -f1)
+printf "1.9.8\x00" | sudo dd of=`which phantomjs` obs=1 seek=${PHJSOFFSET} conv=notrunc
+```
+Be aware, this is not a specially robust way for at least 2 reasons :
+- we expect to find only one match of the version string, and accordingly we use the offset of the first match.
+- we expect the original string to be at least as long as the new one.
+
 ### Build Grafana
 The good news is you mainly have to follow the official
 [instructions](https://github.com/grafana/grafana/blob/v2.6.0/docs/sources/project/building_from_source.md)
@@ -92,32 +127,21 @@ git checkout v2.6.0
 go run build.go setup    
 $GOPATH/bin/godep restore   
 npm install
-npm install -g grunt-cli
 cd $GOPATH/src/github.com/grafana/grafana
 ```
-Now, the fix for `phantomjs`.
+
+Before building and packaging, ensure phantomjs npm module install is right
 ```bash
-export LOC=./node_modules/karma-phantomjs-launcher/node_modules/phantomjs/lib/location.js
-echo "module.exports.location = \"`which phantomjs`\"" > $LOC
-echo "module.exports.platform = \"linux\"" >> $LOC
-echo "module.exports.arch = \"arm\"" >> $LOC
+cd `npm ls --parse phantomjs`
+node install.js
 ```
+
 Finally,
 ```bash
 go run build.go build package
 ```
 The packages are in `./dist`
 
-### Some comments
-The problem for `phantomjs` is that the npm module `phantomjs` (later renamed
-`phantomjs-prebuilt`) won't succeed on arm. It tries to install official binaries
-which don't exist for arm. But, it is only an installer and if you provide a
-working `phantomjs` binary, you just have to change `location.js` (which reports
-the location of the binary to be used). To be specific, you need to create this
-file, since on failure, it is not created.
-
-`nodejs` use that file to find the binary, and thus grafana tests will fails. Moreover,
-`grafana` also use this file to include a working `phantomjs` binary in its package.
 
 ## See:
 - [fpm](https://github.com/jordansissel/fpm)
