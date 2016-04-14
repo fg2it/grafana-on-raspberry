@@ -24,10 +24,10 @@ sudo apt-get install libfontconfig1 libicu48 libjpeg8 libpng12-0
 To install `phantomjs`, can you use my binary :
 ```bash
 curl -L https://raw.githubusercontent.com/fg2it/phantomjs-on-raspberry/master/wheezy/2.0.1-development/phantomjs_2.0.1-development_armhf.deb -o /tmp/phantomjs_2.0.1-development_armhf.deb
-dpkg -i phantomjs_2.0.1-development_armhf.deb
+sudo dpkg -i phantomjs_2.0.1-development_armhf.deb
 ```
 
-The remaining is unchanged.
+The remaining (other dependencies, patch of phantomjs and grafana build) is unchanged.
 
 ## See:
 - [fpm](https://github.com/jordansissel/fpm)
