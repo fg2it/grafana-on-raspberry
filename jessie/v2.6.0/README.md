@@ -107,7 +107,7 @@ sudo dpkg -i /tmp/phantomjs_2.0.0_armhf.deb
 Here is a way to patch your PhantomJS binary:
 ```bash
 export PHJSOFFSET=$(grep -aboF `phantomjs -v` `which phantomjs`|cut -d':' -f1)
-printf "1.9.8\x00" | sudo dd of=`which phantomjs` obs=1 seek=${PHJSOFFSET} conv=notrunc
+printf "1.9.8\00" | sudo dd of=`which phantomjs` obs=1 seek=${PHJSOFFSET} conv=notrunc
 ```
 Be aware, this is not a specially robust way for at least 2 reasons :
 - we expect to find only one match of the version string, and accordingly we use the offset of the first match.
