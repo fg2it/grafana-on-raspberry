@@ -1,4 +1,4 @@
-# Grafana v2.6.0 release for raspberry pi 2
+# Grafana v3.0-beta5 release for raspberry pi 2
 Build from tag [v3.0-beta5](https://github.com/grafana/grafana/tree/v3.0-beta5) with
 [this](https://github.com/fg2it/phantomjs-on-raspberry/tree/master/jessie/b483dd673a1ca589ff10c5f73dfea1e43bfa3225)
 `phantomjs` binary working on raspberry pi 2 running raspbian/jessie.
