@@ -46,17 +46,12 @@ sudo apt-get install python g++     # for node-sass
 ```
 Install go 1.5.2 from hypriot :
 ```bash
-curl -L https://github.com/hypriot/golang-armbuilds/releases/download/v1.5.2/go1.5.2.linux-armv7.tar.gz | tar -xz -C /usr/local
+curl -L https://github.com/hypriot/golang-armbuilds/releases/download/v1.5.2/go1.5.2.linux-armv7.tar.gz | sudo tar -xz -C /usr/local
 export PATH=/usr/local/go/bin:$PATH
 ```
 Install nodejs :
 ```bash
-cd /tmp
-curl -L https://nodejs.org/dist/v5.10.1/node-v5.10.1-linux-armv7l.tar.xz | tar xfJ  -                                                       && \
-mv -t /usr/local/bin     node-v5.10.1-linux-armv7l/bin/*
-mv -t /usr/local/include node-v5.10.1-linux-armv7l/include/*
-mv -t /usr/local/lib     node-v5.10.1-linux-armv7l/lib/*
-mv -t /usr/local/share   node-v5.10.1-linux-armv7l/share/*
+curl -L https://nodejs.org/dist/v5.10.1/node-v5.10.1-linux-armv7l.tar.xz | sudo tar -xJ --strip-components=1 -C /usr/local
 ```
 Install fpm :
 ```bash
@@ -92,7 +87,6 @@ git checkout v3.0-beta5
 go run build.go setup    
 $GOPATH/bin/godep restore   
 npm install
-cd $GOPATH/src/github.com/grafana/grafana
 ```
 
 Finally,
