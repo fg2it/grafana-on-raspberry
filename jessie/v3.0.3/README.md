@@ -8,7 +8,7 @@ some version between 2.0.0 and 2.1.0 release
 ([b483dd6](https://github.com/ariya/phantomjs/tree/b483dd673a1ca589ff10c5f73dfea1e43bfa3225)).
 
 ## How ?
-Just have a look at the build process for [v3.0-beta3](https://github.com/fg2it/grafana-on-raspberry/tree/master/jessie/v3.0-beta3/README.md).
+Just have a look at the build process for [v3.0-beta5](https://github.com/fg2it/grafana-on-raspberry/tree/master/jessie/v3.0-beta5/README.md).
 The only thing to change is the obvious one
 ```bash
 git checkout v3.0.3
