@@ -1,8 +1,11 @@
 FROM resin/armv7hf-debian:jessie
 
+ARG GRAFANA_VERSION
+ARG GRAFANA_STAMP
+
 RUN apt-get update && \
     apt-get -y --no-install-recommends install libfontconfig curl ca-certificates libicu52 libjpeg62-turbo libpng12-0 && \
-    curl -L https://github.com/fg2it/grafana-on-raspberry/releases/download/v3.0.2-jessie/grafana_3.0.2-1463517851_armhf.deb > /tmp/grafana.deb && \
+    curl -L https://github.com/fg2it/grafana-on-raspberry/releases/download/v${GRAFANA_VERSION}-jessie/grafana_${GRAFANA_VERSION}-${GRAFANA_STAMP}_armhf.deb > /tmp/grafana.deb && \
     curl -o /usr/sbin/gosu -fsSL "https://github.com/tianon/gosu/releases/download/1.9/gosu-$(dpkg --print-architecture)" && \
     chmod +x /usr/sbin/gosu && \
     apt-get remove -y curl  && \

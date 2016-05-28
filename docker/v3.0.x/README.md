@@ -1,14 +1,25 @@
 # Unofficial Grafana Docker image for armhf
 
 This project builds a Docker image with an unofficial grafana
-[v3.0.2](https://github.com/grafana/grafana/tree/v3.0.2) build for armhf and
+build for armhf available [here](https://github.com/fg2it/grafana-on-raspberry/releases/) and
 closely follow the [official docker
 image](https://github.com/grafana/grafana-docker). The base docker image is
 [resin/armv7hf-debian:jessie](https://hub.docker.com/r/resin/armv7hf-debian/)
 
-The container is available on [dockerhub](https://hub.docker.com/r/fg2it/grafana-armhf/) :
+The container are available on [dockerhub](https://hub.docker.com/r/fg2it/grafana-armhf/).
+See [dockerhub](https://hub.docker.com/r/fg2it/grafana-armhf/tags) for available
+version. Alternately, you can just have a look at the `build.py` file or use the registry api :
+```bash
+curl -s -S https://registry.hub.docker.com/v2/repositories/fg2it/grafana-armhf/tags/ | python -m json.tool | grep name
 ```
-docker pull fg2it/grafana-armhf:v3.0.2
+
+For example,
+```bash
+% curl -s -S https://registry.hub.docker.com/v2/repositories/fg2it/grafana-armhf/tags/ | python -m json.tool | grep name
+            "name": "v3.0.4",
+            "name": "v3.0.3",
+            "name": "v3.0.2",
+% docker pull fg2it/grafana-armhf:v3.0.4
 ```
 
 The following documentation is a mere adaptation of the [official
@@ -22,7 +33,7 @@ It was tested only on a raspberry pi 2.
 Start your container binding the external port `3000`.
 
 ```
-docker run -d --name=grafana -p 3000:3000 fg2it/grafana-armhf:v3.0.2
+docker run -d --name=grafana -p 3000:3000 fg2it/grafana-armhf:<tag>
 ```
 
 Try it out, default admin user is admin/admin.
@@ -39,7 +50,7 @@ docker run \
   --name=grafana \
   -e "GF_SERVER_ROOT_URL=http://grafana.server.name" \
   -e "GF_SECURITY_ADMIN_PASSWORD=secret" \
-  fg2it/grafana-armhf:v3.0.2
+  fg2it/grafana-armhf:<tag>
 ```
 
 ## Grafana container with persistent storage (recommended)
@@ -54,7 +65,7 @@ docker run \
   -p 3000:3000 \
   --name=grafana \
   --volumes-from grafana-storage \
-  fg2it/grafana-armhf:v3.0.2
+  fg2it/grafana-armhf:<tag>
 ```
 
 ## Configuring AWS credentials for CloudWatch support
@@ -68,7 +79,7 @@ docker run \
   -e "GF_AWS_default_ACCESS_KEY_ID=YOUR_ACCESS_KEY" \
   -e "GF_AWS_default_SECRET_ACCESS_KEY=YOUR_SECRET_KEY" \
   -e "GF_AWS_default_REGION=us-east-1" \
-  fg2it/grafana-armhf:v3.0.2
+  fg2it/grafana-armhf:<tag>
 ```
 
 You may also specify multiple profiles to `GF_AWS_PROFILES` (e.g.
