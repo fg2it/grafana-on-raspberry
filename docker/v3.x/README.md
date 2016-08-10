@@ -1,6 +1,6 @@
 # Unofficial Grafana Docker image for armhf
 
-> here v3.x stands for any of v3.0.[2-4] or v3.1.0-beta1
+> here v3.x stands for any of v3.0.[2-4], v3.1.0-beta1 or v3.1.[0-1]
 
 This project builds a Docker image with an unofficial grafana
 build for armhf available [here](https://github.com/fg2it/grafana-on-raspberry/releases/) and
