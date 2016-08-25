@@ -18,10 +18,12 @@ curl -s -S https://registry.hub.docker.com/v2/repositories/fg2it/grafana-armhf/t
 For example,
 ```bash
 % curl -s -S https://registry.hub.docker.com/v2/repositories/fg2it/grafana-armhf/tags/ | python -m json.tool | grep name
+            "name": "v3.1.1",
+            "name": "v3.1.0",
             "name": "v3.0.4",
             "name": "v3.0.3",
             "name": "v3.0.2",
-% docker pull fg2it/grafana-armhf:v3.0.4
+% docker pull fg2it/grafana-armhf:v3.1.1
 ```
 
 The following documentation is a mere adaptation of the [official
@@ -68,6 +70,30 @@ docker run \
   --name=grafana \
   --volumes-from grafana-storage \
   fg2it/grafana-armhf:<tag>
+```
+
+## Installing plugins for Grafana 3
+
+Pass the plugins you want installed to docker with the `GF_INSTALL_PLUGINS` environment variable as a comma seperated list. This will pass each plugin name to `grafana-cli plugins install ${plugin}`.
+
+```
+docker run \
+  -d \
+  -p 3000:3000 \
+  --name=grafana \
+  -e "GF_INSTALL_PLUGINS=grafana-clock-panel,grafana-simple-json-datasource" \
+  fg2it/grafana-armhf:<tag>
+```
+
+## Running specific version of Grafana
+
+```
+# specify right tag, e.g. v2.6.0 - see Docker Hub for available tags
+docker run \
+  -d \
+  -p 3000:3000 \
+  --name grafana \
+  fg2it/grafana-armhf:v2.6.0
 ```
 
 ## Configuring AWS credentials for CloudWatch support
