@@ -24,8 +24,8 @@ With this change, comes the use of
 [node-sass](https://github.com/sass/node-sass) npm module, which is a node
 binding to [libsass](https://github.com/sass/libsass).
 
-Unfortunately for you raspberry pi, no official binaries are available, which
-means your pi will have to build it it self. It takes some time but everything
+Unfortunately for your raspberry pi, no official binaries are available, which
+means your pi will have to build it itself. It takes some time but everything
 works flawlessly during the `npm install` step, provided you have `python` and
 `g++` installed.
 
