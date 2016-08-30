@@ -7,13 +7,23 @@ to allow easy install.
 Packages were build on a raspberry pi 2 running raspbian from the Grafana
 [source](https://github.com/grafana/grafana). Each directory contains a README.md
 file that discribes how packages were build and so, how you can do it yourself
-if you are not confortable with unofficial packages. 
+if you are not confortable with unofficial packages.
 
-I expect the .deb packages work on wheezy and jessie : the only thing I am sure
-will fail is feature creating png files from your graph. For this, `grafana`
-relies on `PhantomJS` and the binaries included in these .deb won't work on both
-wheezy and jessie. Beside this, it should work but I didn't test it.
+## `wheezy/` and `jessie/`
+The .deb packages in `wheezy/` and `jessie/` subfolder should essentially work
+on both wheezy and jessie distro, but at least one feature won't : creating png
+files from your graph. For this, `grafana` relies on `PhantomJS` and the
+binaries included in these .deb won't work on both wheezy and jessie. Beside
+this, it should work but I didn't test it.
 
-The docker folder contains `Dockerfile` to build images running grafana for armhf.
+## `wheezy-jessie/`
+The `wheezy-jessie/` folder contains packages that do not have the aforementioned
+problem. They use a different PhantomJS build, which works fine on both distro.
+
+## `docker/`
+The `docker/` folder contains `Dockerfile` and related files to build images
+running grafana for armhf.
+
+
 
 Grafana [license](https://github.com/grafana/grafana/blob/master/LICENSE.md).
