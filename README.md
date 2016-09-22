@@ -1,4 +1,4 @@
-# grafana-on-raspberry
+# grafana-on-raspberry [![Release](https://img.shields.io/github/release/fg2it/grafana-on-raspberry.svg)](https://github.com/fg2it/grafana-on-raspberry/releases/latest)
 [Grafana](http://grafana.org) *unofficial* packages for arm based raspberry pi 2.
 
 Grafana doesn't provide packages for arm, so these packages are here
