@@ -1,6 +1,18 @@
-# Grafana v3.0-beta5 release for raspberry pi 2
-Build from tag [v3.0-beta5](https://github.com/grafana/grafana/tree/v3.0-beta5) with
-[this](https://github.com/fg2it/phantomjs-on-raspberry/tree/master/jessie/b483dd673a1ca589ff10c5f73dfea1e43bfa3225)
+# Grafana v3.x release for raspberry pi 2 and 3/jessie
+> Here v3.x stands for any of [v3.0-beta5](https://github.com/grafana/grafana/tree/v3.0-beta5),
+[v3.0.2](https://github.com/grafana/grafana/tree/v3.0.2),
+[v3.0.3](https://github.com/grafana/grafana/tree/v3.0.3),
+[v3.0.4](https://github.com/grafana/grafana/tree/v3.0.4),
+[v3.1.0-beta1](https://github.com/grafana/grafana/tree/v3.1.0-beta1),
+[v3.1.0](https://github.com/grafana/grafana/tree/v3.1.0),
+[v3.1.1](https://github.com/grafana/grafana/tree/v3.1.1)
+
+> This note presents how I build v3.x. For download, see the
+>[release](https://github.com/fg2it/grafana-on-raspberry/releases) section. For install, see the [wiki](https://github.com/fg2it/grafana-on-raspberry/wiki).
+
+
+Build from the corresponding tag of [grafana](https://github.com/grafana/grafana) github repo with
+[this](https://github.com/fg2it/phantomjs-on-raspberry/tree/fe240a6831b943be813e01eef897045963cb54bc/jessie/b483dd673a1ca589ff10c5f73dfea1e43bfa3225)
 `phantomjs` binary working on raspberry pi 2 running raspbian/jessie.
 
 `go` version was 1.5.2, `nodejs` was 5.10.1, `npm` was 3.8.3  and `phantomjs` was
@@ -59,7 +71,7 @@ gem install fpm
 ```
 Finally, install your `phantomjs` binary. For example :
 ```bash
-curl -L https://raw.githubusercontent.com/fg2it/phantomjs-on-raspberry/master/jessie/b483dd673a1ca589ff10c5f73dfea1e43bfa3225/phantomjs_2.0.0_armhf.deb -o /tmp/phantomjs_2.0.0_armhf.deb
+curl -L https://github.com/fg2it/phantomjs-on-raspberry/raw/fe240a6831b943be813e01eef897045963cb54bc/jessie/b483dd673a1ca589ff10c5f73dfea1e43bfa3225/phantomjs_2.0.0_armhf.deb -o /tmp/phantomjs_2.0.0_armhf.deb
 sudo dpkg -i /tmp/phantomjs_2.0.0_armhf.deb
 ```
 
@@ -83,7 +95,7 @@ mkdir -p $GOPATH
 cd $GOPATH
 go get github.com/grafana/grafana
 cd $GOPATH/src/github.com/grafana/grafana
-git checkout v3.0-beta5
+git checkout v3.0-beta5 #change v3.0-beta5 with the wanted v3.x tag
 go run build.go setup    
 $GOPATH/bin/godep restore   
 npm install
@@ -99,6 +111,6 @@ The packages are in `./dist`
 ## See:
 - [fpm](https://github.com/jordansissel/fpm)
 - [go](http://blog.hypriot.com/post/how-to-compile-go-on-arm/) by hypriot
-- [grafana](https://github.com/grafana/grafana/blob/v3.0-beta5/docs/sources/project/building_from_source.md)
+- grafana [v3.0-beta5](https://github.com/grafana/grafana/blob/v3.0-beta5/docs/sources/project/building_from_source.md) offical build instructions (they are the same for all v3.x tags)
 - [nodejs](https://nodejs.org/dist/v5.10.1/node-v5.10.1-linux-armv7l.tar.xz) official binaries
-- [phantomjs](https://github.com/fg2it/phantomjs-on-raspberry/blob/master/jessie/b483dd673a1ca589ff10c5f73dfea1e43bfa3225/phantomjs?raw=true) for pi2/jessie
+- [phantomjs](https://github.com/fg2it/phantomjs-on-raspberry/tree/fe240a6831b943be813e01eef897045963cb54bc/jessie/b483dd673a1ca589ff10c5f73dfea1e43bfa3225) for pi2 (and pi3)/jessie
