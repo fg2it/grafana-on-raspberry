@@ -1,6 +1,6 @@
-# Grafana v2.1.2 release for raspberry pi 2
+# Grafana v2.1.2 release for raspberry pi 2 and 3/wheezy
 Build from tag [v2.1.2](https://github.com/grafana/grafana/tree/v2.1.2) with
-[this](https://github.com/fg2it/phantomjs-on-raspberry/tree/master/wheezy/2.0.1-development_as_1.9.8)
+[this](https://github.com/fg2it/phantomjs-on-raspberry/tree/fe240a6831b943be813e01eef897045963cb54bc/wheezy/2.0.1-development_as_1.9.8)
 `phantomjs` binary working on raspberry pi 2 running raspbian/wheezy.
 
 `go` version was 1.5, `nodejs` was 0.12.7, `npm` was 2.11.3 and `phantomjs` was
@@ -46,7 +46,7 @@ sudo gem install fpm
 sudo apt-get install rpm
 ```
 
-Then you need to install `nodejs` and `phantomjs` (1.9.8). See my other repos for that if you are on pi2/raspbian wheezy.
+Then you need to install `nodejs` and `phantomjs` (1.9.8). See my other repo for that.
 Be careful to install your `phantomjs` binary before the `npm install` step:
 npm will try to install `phantomjs` if it doesn't find `phantomjs` version 1.9.8
 in your path; unfortunately, because of this [issue](https://github.com/Medium/phantomjs/issues/376),
@@ -93,4 +93,4 @@ v4.0.0. You should probably give it a try.
 - [grafana](https://github.com/grafana/grafana/blob/v2.1.2/docs/sources/project/building_from_source.md)
 - [gvm](https://github.com/moovweb/gvm)
 - nodejs [v0.12.7](https://github.com/fg2it/nodejs-on-raspberry/tree/master/0.12.7) for pi2 and [official binaries](https://nodejs.org/dist/)
-- [phantomjs](https://github.com/fg2it/phantomjs-on-raspberry/tree/master/wheezy) pseudo v1.9.8 for pi2/wheezy
+- [phantomjs](https://github.com/fg2it/phantomjs-on-raspberry/tree/fe240a6831b943be813e01eef897045963cb54bc/wheezy/2.0.1-development_as_1.9.8) pseudo v1.9.8 for pi2 (and pi3)/wheezy

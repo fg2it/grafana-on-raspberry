@@ -1,13 +1,13 @@
-# Grafana v3.1.1 release for raspberry pi 2
+# Grafana v3.1.1 release for raspberry pi 2 and 3/wheezy
 Build from tag [v3.1.1](https://github.com/grafana/grafana/tree/v3.1.1) with with
-[this](https://github.com/fg2it/phantomjs-on-raspberry/tree/master/wheezy/2.0.1-development)
+[this](https://github.com/fg2it/phantomjs-on-raspberry/tree/fe240a6831b943be813e01eef897045963cb54bc/wheezy/2.0.1-development)
 `phantomjs` binary working on raspberry pi 2 running raspbian/wheezy.
 
 `go` version was 1.5.2, `nodejs` was 5.10.1, `npm` was 3.8.3 and `phantomjs` was
 2.0.1-dev.
 
 The packages here can be expected to work on raspbian/jessie too, except for
-features relying on `PhantomJS`. (see [here](https://github.com/fg2it/grafana-on-raspberry/tree/master/jessie/v3.1.1) for jessie)
+features relying on `PhantomJS`. (see [here](https://github.com/fg2it/grafana-on-raspberry/tree/master/jessie/v3.x) for jessie)
 
 
 ## Do it yourself
@@ -18,10 +18,10 @@ These are rather easy to deal with on jessie, but for wheezy this requires a nas
 ### Phantomjs
 The expected version of Phantomjs by the npm module phantomjs-prebuild is now 2.1.1.
 Once your phantomjs binary have this version, no other changes are required for this part.
-So no additional step to finish the install of the npm module. 
+So no additional step to finish the install of the npm module.
 
 ### node-sass
-This is the nasty part on wheezy
+This is the nasty part on wheezy.
 
 As stated in [Grafana 3.0 Beta Released blog post](http://grafana.org/blog/2016/03/31/grafana-3-0-beta-released.html)
 the UI moved from bootstrap to a custom sets of sass foundation.
@@ -47,7 +47,7 @@ Add jessie to your sources
 sudo echo 'deb http://mirrordirector.raspbian.org/raspbian/ jessie main contrib non-free rpi' >> /etc/apt/sources.list
 ```
 Set how sources should be used
-```bash 
+```bash
 sudo cat << PREF > /etc/apt/preferences
 Package: *
 Pin: release n=wheezy
@@ -93,7 +93,7 @@ gem install fpm
 
 ### Install Phantomjs
 ```bash
-curl -L https://raw.githubusercontent.com/fg2it/phantomjs-on-raspberry/master/wheezy/2.0.1-development/phantomjs_2.0.1-development_armhf.deb -o /tmp/phantomjs_2.0.1-development_armhf.deb
+curl -L https://github.com/fg2it/phantomjs-on-raspberry/raw/fe240a6831b943be813e01eef897045963cb54bc/wheezy/2.0.1-development/phantomjs_2.0.1-development_armhf.deb -o /tmp/phantomjs_2.0.1-development_armhf.deb
 sudo dpkg -i phantomjs_2.0.1-development_armhf.deb
 ```
 Patch the binary to have pretend it is version 2.1.1
@@ -110,8 +110,8 @@ cd $GOPATH
 go get github.com/grafana/grafana
 cd $GOPATH/src/github.com/grafana/grafana
 git checkout v3.1.1
-go run build.go setup    
-$GOPATH/bin/godep restore   
+go run build.go setup
+$GOPATH/bin/godep restore
 npm install
 go run build.go build package
 ```
@@ -130,4 +130,4 @@ sudo dpkg -i /tmp/grafana.deb
 - [go](http://blog.hypriot.com/post/how-to-compile-go-on-arm/) by hypriot
 - [grafana](https://github.com/grafana/grafana/blob/v3.1.1/docs/sources/project/building_from_source.md)
 - [nodejs](https://nodejs.org/dist/v5.10.1/node-v5.10.1-linux-armv7l.tar.xz) official binaries
-- [phantomjs](https://github.com/fg2it/phantomjs-on-raspberry/tree/master/wheezy/2.0.1-development) for pi2/wheezy
+- [phantomjs](https://github.com/fg2it/phantomjs-on-raspberry/tree/fe240a6831b943be813e01eef897045963cb54bc/wheezy/2.0.1-development) for pi2 (and pi3)/wheezy

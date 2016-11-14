@@ -1,6 +1,6 @@
-# Grafana v2.6.0 release for raspberry pi 2
+# Grafana v2.6.0 release for raspberry pi 2 and 3/jessie
 Build from tag [v2.6.0](https://github.com/grafana/grafana/tree/v2.6.0) with
-[this](https://github.com/fg2it/phantomjs-on-raspberry/tree/master/jessie/b483dd673a1ca589ff10c5f73dfea1e43bfa3225)
+[this](https://github.com/fg2it/phantomjs-on-raspberry/tree/fe240a6831b943be813e01eef897045963cb54bc/jessie/b483dd673a1ca589ff10c5f73dfea1e43bfa3225)
 `phantomjs` binary working on raspberry pi 2 running raspbian/jessie.
 
 `go` version was 1.5.2, `nodejs` was 4.4.1, `npm` was 2.14.20 and `phantomjs` was
@@ -31,7 +31,7 @@ You need a recent version of `nodejs` (>=0.12.0 should be fine; 0.12.7 is).
 Careful here, `npm` (>=3.0.0) changed its way to layout modules and grafana
 build rely on this layout at least to find `phantomjs` binary to be included
 in the package (see [here](https://github.com/grafana/grafana/blob/v2.6.0/tasks/options/phantomjs.js)
-for gory details). 
+for gory details).
 The following instructions expect the npm v2 layout. You will need to adapt a
 few things in the following instructions and probably some grafana source files
 (see [here](https://github.com/grafana/grafana/blob/v3.0-beta1/tasks/options/phantomjs.js)).
@@ -50,7 +50,7 @@ Unfortunately, there are no official binary of phantomjs available for arm.
 The problem for `phantomjs` is that the npm module `phantomjs` (later renamed
 `phantomjs-prebuilt`) won't succeed on arm. It tries to install official binaries
 which don't exist for arm. If you already have `phantomjs` installed, it checks
-its version string against some specific version. 
+its version string against some specific version.
 
 So, having a having `phantomjs` for your raspberry pi is not enough, it has to
 be the right version. Otherwise, the phantomjs npm module will reject it and
@@ -99,7 +99,7 @@ gem install fpm
 ```
 Finally, install your `phantomjs` binary. For example :
 ```bash
-curl -L https://raw.githubusercontent.com/fg2it/phantomjs-on-raspberry/master/jessie/b483dd673a1ca589ff10c5f73dfea1e43bfa3225/phantomjs_2.0.0_armhf.deb -o /tmp/phantomjs_2.0.0_armhf.deb
+curl -L https://github.com/fg2it/phantomjs-on-raspberry/raw/fe240a6831b943be813e01eef897045963cb54bc/jessie/b483dd673a1ca589ff10c5f73dfea1e43bfa3225/phantomjs_2.0.0_armhf.deb -o /tmp/phantomjs_2.0.0_armhf.deb
 sudo dpkg -i /tmp/phantomjs_2.0.0_armhf.deb
 ```
 
@@ -124,8 +124,8 @@ cd $GOPATH
 go get github.com/grafana/grafana
 cd $GOPATH/src/github.com/grafana/grafana
 git checkout v2.6.0
-go run build.go setup    
-$GOPATH/bin/godep restore   
+go run build.go setup
+$GOPATH/bin/godep restore
 npm install
 cd $GOPATH/src/github.com/grafana/grafana
 ```
@@ -149,4 +149,4 @@ The packages are in `./dist`
 - [grafana](https://github.com/grafana/grafana/blob/v2.6.0/docs/sources/project/building_from_source.md)
 - [gvm](https://github.com/moovweb/gvm)
 - [nodejs](https://nodejs.org/dist/v4.4.1/node-v4.4.1-linux-armv7l.tar.xz) official binaries
-- [phantomjs](https://github.com/fg2it/phantomjs-on-raspberry/blob/master/jessie/b483dd673a1ca589ff10c5f73dfea1e43bfa3225/phantomjs?raw=true) for pi2/jessie
+- (https://github.com/fg2it/phantomjs-on-raspberry/tree/fe240a6831b943be813e01eef897045963cb54bc/jessie/b483dd673a1ca589ff10c5f73dfea1e43bfa3225) for pi2 (and pi3)/jessie
