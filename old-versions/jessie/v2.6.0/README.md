@@ -149,4 +149,4 @@ The packages are in `./dist`
 - [grafana](https://github.com/grafana/grafana/blob/v2.6.0/docs/sources/project/building_from_source.md)
 - [gvm](https://github.com/moovweb/gvm)
 - [nodejs](https://nodejs.org/dist/v4.4.1/node-v4.4.1-linux-armv7l.tar.xz) official binaries
-- (https://github.com/fg2it/phantomjs-on-raspberry/tree/fe240a6831b943be813e01eef897045963cb54bc/jessie/b483dd673a1ca589ff10c5f73dfea1e43bfa3225) for pi2 (and pi3)/jessie
+- [phantomjs](https://github.com/fg2it/phantomjs-on-raspberry/tree/fe240a6831b943be813e01eef897045963cb54bc/jessie/b483dd673a1ca589ff10c5f73dfea1e43bfa3225) for pi2 (and pi3)/jessie

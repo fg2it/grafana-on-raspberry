@@ -9,7 +9,7 @@ Deb packages and tarballs are available from the github
 most recent ones are also available from a deb repo on bintray (including for pi 1). See the
 [wiki](https://github.com/fg2it/grafana-on-raspberry/wiki) for details.
 
-## `old-versions`
+## `old-versions/`
 This directory contains notes for versions from 2.1.2 up to 3.1.1 for wheezy and jessie distro.
 
 ## `docker/`
