@@ -17,7 +17,7 @@ you would end up with a fully functional build.
 ## Main problems to overcome
 ### go
 Not really a problem, it is more of a comment. You have two easy ways to get v1.5 :
-- First, the easy way with [gvm](https://github.com/moovweb/gvm). See [here](https://github.com/fg2it/grafana-on-raspberry/tree/master/wheezy/f27f028d4495e46e9b509704e1fc52dcd2d0b5e8).
+- First, the easy way with [gvm](https://github.com/moovweb/gvm).
 - Second, the very easy way with [hypriot](http://blog.hypriot.com/post/how-to-compile-go-on-arm/)
 unofficial tarball, which is what I did here. I am not too much in favor of
 unofficial build, but hypriot produces a nice and well establish work on arm,

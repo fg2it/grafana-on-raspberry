@@ -7,12 +7,12 @@ Build from tag [v2.6.0](https://github.com/grafana/grafana/tree/v2.6.0) with wit
 2.0.1-dev.
 
 The packages here can be expected to work on raspbian/jessie too, except for
-features relying on `PhantomJS`. (see [here](https://github.com/fg2it/grafana-on-raspberry/tree/master/jessie/v2.6.0) for jessie)
+features relying on `PhantomJS`. (see [here](https://github.com/fg2it/grafana-on-raspberry/tree/master/old-versions/jessie/v2.6.0) for jessie)
 
 
 ## Do it your self
 
-Packages were built following the same [instructions](https://github.com/fg2it/grafana-on-raspberry/tree/master/jessie/v2.6.0)
+Packages were built following the same [instructions](https://github.com/fg2it/grafana-on-raspberry/tree/master/old-versions/jessie/v2.6.0)
 than for jessie with minimal changes.
 
 ### Dependencies

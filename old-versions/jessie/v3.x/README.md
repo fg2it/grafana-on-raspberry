@@ -20,7 +20,7 @@ some version between 2.0.0 and 2.1.0 release
 ([b483dd6](https://github.com/ariya/phantomjs/tree/b483dd673a1ca589ff10c5f73dfea1e43bfa3225)).
 
 ## Main problems to overcome
-Most of what I said for [v2.6.0](https://github.com/fg2it/grafana-on-raspberry/blob/master/jessie/v2.6.0/README.md)
+Most of what I said for [v2.6.0](https://github.com/fg2it/grafana-on-raspberry/tree/master/old-versions/jessie/v2.6.0/README.md)
 still hold. But there are a few new things.
 
 ### Phantomjs

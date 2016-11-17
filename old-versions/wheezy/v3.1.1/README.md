@@ -7,7 +7,7 @@ Build from tag [v3.1.1](https://github.com/grafana/grafana/tree/v3.1.1) with wit
 2.0.1-dev.
 
 The packages here can be expected to work on raspbian/jessie too, except for
-features relying on `PhantomJS`. (see [here](https://github.com/fg2it/grafana-on-raspberry/tree/master/jessie/v3.x) for jessie)
+features relying on `PhantomJS`. (see [here](https://github.com/fg2it/grafana-on-raspberry/tree/master/old-versions/jessie/v3.x) for jessie)
 
 
 ## Do it yourself
