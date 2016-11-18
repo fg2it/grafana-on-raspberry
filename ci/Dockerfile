@@ -4,7 +4,8 @@ MAINTAINER fg2it
 
 ENV PATH=/usr/local/go/bin:$PATH \
     GOPATH=/tmp/graf-build \
-    NODEVERSION=5.10.1
+    NODEVERSION=5.11.1 \
+    GOVERSION=1.7.3
 
 RUN apt-get update       && \
     apt-get install -y      \
@@ -22,7 +23,7 @@ RUN apt-get update       && \
         ruby-dev            \
         xz-utils        &&  \
     gem install --no-ri --no-rdoc fpm      && \
-    curl -sSL https://storage.googleapis.com/golang/go1.7.1.linux-amd64.tar.gz \
+    curl -sSL https://storage.googleapis.com/golang/go${GOVERSION}.linux-amd64.tar.gz \
       | tar -xz -C /usr/local && \
     curl -sSL https://nodejs.org/dist/v${NODEVERSION}/node-v${NODEVERSION}-linux-x64.tar.xz    \
       | tar -xJ --strip-components=1 -C /usr/local && \
