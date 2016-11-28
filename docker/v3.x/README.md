@@ -30,7 +30,7 @@ The following documentation is a mere adaptation of the [official
 one](https://github.com/grafana/grafana-docker/tree/aff14bd707682870b9d5f2f2b62d2eb09f734923).
 
 ## Caution
-It was tested only on a raspberry pi 2.
+It was tested on raspberry pi 2 and pi 3, and won't work on pi 1.
 
 ## Running your Grafana container
 

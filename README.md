@@ -1,4 +1,9 @@
 # grafana-on-raspberry [![Release](https://img.shields.io/github/release/fg2it/grafana-on-raspberry.svg)](https://github.com/fg2it/grafana-on-raspberry/releases/latest) [![Build Status](https://travis-ci.org/fg2it/grafana-on-raspberry.svg?branch=master)](https://travis-ci.org/fg2it/grafana-on-raspberry)
+
+> raspberry pi 1 (armv6) [ ![Download](https://api.bintray.com/packages/fg2it/deb-rpi-1b/grafana-on-raspberry/images/download.svg) ](https://bintray.com/fg2it/deb-rpi-1b/grafana-on-raspberry/_latestVersion)
+
+> raspberry pi 2 and 3 (armv7) [ ![Download](https://api.bintray.com/packages/fg2it/deb/grafana-on-raspberry/images/download.svg) ](https://bintray.com/fg2it/deb/grafana-on-raspberry/_latestVersion)
+
 [Grafana](http://grafana.org) *unofficial* packages for arm based raspberry pi (1, 2 and 3).
 
 Grafana doesn't provide packages for arm, so the purpose of this repo is to provide notes
