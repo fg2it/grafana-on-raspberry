@@ -69,7 +69,27 @@ docker run \
   fg2it/grafana-armhf:<tag>
 ```
 
-## Installing plugins for Grafana 3
+> This is the way recommended in the [grafana official documentation](https://github.com/grafana/grafana-docker/tree/7eed5279e62fb1ebb78bef11e45e015cd09f4f0e#grafana-container-with-persistent-storage-recommended).
+Nevertheless, at some point I found this sharp underrated
+[answer](http://serverfault.com/a/760244) to "docker volume container or
+docker volume?" on severfault which refers to
+[this](https://github.com/docker/docker/issues/20465) issue
+and [this](https://github.com/docker/docker/issues/17798) one (especially [this](https://github.com/docker/docker/issues/17798#issuecomment-154815207) post
+and [this](https://github.com/docker/docker/issues/17798#issuecomment-154820406)
+one). So, I would advise to stop using data volume containers and switch to data volumes using the `docker volume` command.
+```
+docker volume create --name grafana-storage
+docker run \
+  -d \
+  -p 3000:3000 \
+  --name=grafana \
+  -v grafana-storage:/var/lib/grafana \
+  fg2it/grafana-armhf:<tag>
+```
+You need at least docker v1.9 for this. See the [data volume](https://docs.docker.com/engine/tutorials/dockervolumes/#/data-volumes)
+documentation on docker.
+
+## Installing plugins for Grafana 3 (and 4)
 
 Pass the plugins you want installed to docker with the `GF_INSTALL_PLUGINS` environment variable as a comma seperated list. This will pass each plugin name to `grafana-cli plugins install ${plugin}`.
 
