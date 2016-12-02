@@ -2,7 +2,13 @@
 FROM debian:jessie
 MAINTAINER fg2it
 
-ENV PATH=/usr/local/go/bin:$PATH \
+ARG LABEL=master
+ARG DEPTH=1
+ARG COMMIT
+
+ENV LABEL=${LABEL} \
+    DEPTH=${DEPTH} \
+    PATH=/usr/local/go/bin:$PATH \
     GOPATH=/tmp/graf-build \
     NODEVERSION=5.11.1 \
     GOVERSION=1.7.3
@@ -27,10 +33,11 @@ RUN apt-get update       && \
       | tar -xz -C /usr/local && \
     curl -sSL https://nodejs.org/dist/v${NODEVERSION}/node-v${NODEVERSION}-linux-x64.tar.xz    \
       | tar -xJ --strip-components=1 -C /usr/local && \
-    mkdir -p $GOPATH          && \
-    cd $GOPATH                && \
-    go get github.com/grafana/grafana  || true && \
+    mkdir -p $GOPATH/src/github.com/grafana    && \
+    cd $GOPATH/src/github.com/grafana          && \
+    git clone -b ${LABEL} --depth ${DEPTH} --single-branch https://github.com/grafana/grafana.git && \
     cd $GOPATH/src/github.com/grafana/grafana  && \
+    git checkout ${COMMIT}                     && \
     npm install                                && \
     go run build.go setup
 

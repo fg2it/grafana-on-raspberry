@@ -5,19 +5,12 @@ set -x
 usage() {
   base="$(basename "$0")"
   cat <<EOUSAGE
-usage: $base arch [commit|tag]
+usage: $base <arch>
 Install specific packages to build grafana for either armv6 or armv7
 Available arch:
-  $base armv6 [commit|tag]
-  $base armv7 [commit|tag]
+  $base armv6
+  $base armv7
 EOUSAGE
-}
-
-check_commit() {
-  cd $GOPATH/src/github.com/grafana/grafana
-  if [ -n "$1" ] && [ -z `git rev-parse --verify $1` ]; then
-    exit 1
-  fi
 }
 
 install_phjs() {
@@ -48,7 +41,6 @@ armv7_install_cross() {
 
 build() {
   cd $GOPATH/src/github.com/grafana/grafana
-  git checkout $COMMIT
   go run build.go                   \
      -pkg-arch=armhf                \
      -goarch=${ARM}                 \
@@ -60,18 +52,12 @@ build() {
          pkg-deb
 }
 
-if (( ($# < 1) && ($# > 2) )); then
+if (( $# != 1 )); then
 	usage >&2
 	exit 1
 fi
 
 ARM="$1"
-
-COMMIT="master"
-if (( $# == 2)); then
-  COMMIT=${2%*-testing}
-  check_commit $COMMIT
-fi
 
 case "$ARM" in
   armv6)
@@ -90,4 +76,4 @@ case "$ARM" in
 esac
 
 install_phjs
-build $2
+build

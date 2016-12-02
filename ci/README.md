@@ -7,20 +7,25 @@ inside a docker container.
 ## Usage
 Build the docker image
 ```bash
-$ docker build -t grafana-builder .
+$ docker build [--build-arg LABEL=<grafana-tag>] [--build-arg DEPTH=<depth>] [--build-arg COMMIT=<git-commit>] -t grafana-builder .
 ```
+>- LABEL is a branch or a tag of grafana github repo, default is master
+- DEPTH is the number of commit to be checkout, default is 1
+- COMMIT is a specific commit to checkout, default is head
+>
+As a consequence:
+- without option, it prepares build of current commit on master
+- if you intend to build a specific commit, COMMIT should be reachable within the DEPTH commits from current head of the branch LABEL
 
 Build Grafana depending on your target,
 ```bash
-$ docker run --name build-armv6 grafana-builder ./build.sh armv6 [grafana-tag]
+$ docker run --name build-armv6 grafana-builder ./build.sh armv6
 ```
 or
 ```bash
-$ docker run --name build-armv7 grafana-builder ./build.sh armv7 [grafana-tag]
+$ docker run --name build-armv7 grafana-builder ./build.sh armv7
 ```
-If present, `grafana-tag` should be a tag from the Grafana github
-[repo](https://github.com/grafana/grafana). If no tag is provided, build against
-current commit of master branch.
+
 
 Then you can extract .deb and tarball from the container:
 ```bash

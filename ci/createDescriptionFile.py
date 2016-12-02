@@ -10,8 +10,10 @@ repo={
 
 name = os.getenv("TRAVIS_TAG")
 component = "main"
-if name and re.search(r'-testing$',name):
-    component = 'testing'
+if name :
+    for c in ('testing','experimental'):
+        if re.search(r'-{}$'.format(c),name):
+            component = c
 
 def descriptor(arch):
     _package = {

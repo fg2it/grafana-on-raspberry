@@ -8,11 +8,11 @@ install: true
 
 before_script:
   - docker pull debian:jessie
-  - docker build -t fg2it/grafana-builder -f ci/Dockerfile ci
+  - ci/createImage.py
 
 script:
-  - docker run --name build-armv6 fg2it/grafana-builder ./build.sh armv6 ${TRAVIS_TAG}
-  - docker run --name build-armv7 fg2it/grafana-builder ./build.sh armv7 ${TRAVIS_TAG}
+  - docker run --name build-armv6 fg2it/grafana-builder ./build.sh armv6
+  - docker run --name build-armv7 fg2it/grafana-builder ./build.sh armv7
 
 after_success:
   - docker cp build-armv6:/tmp/graf-build/src/github.com/grafana/grafana/dist/ armv6
