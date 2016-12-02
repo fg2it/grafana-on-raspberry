@@ -18,6 +18,7 @@ curl -s -S https://registry.hub.docker.com/v2/repositories/fg2it/grafana-armhf/t
 For example,
 ```bash
 % curl -s -S https://registry.hub.docker.com/v2/repositories/fg2it/grafana-armhf/tags/ | python -m json.tool | grep 'name.*v4'
+            "name": "v4.0.0-beta2",
             "name": "v4.0.0-beta1",
 % docker pull fg2it/grafana-armhf:v4.0.0-beta1
 ```
