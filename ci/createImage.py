@@ -17,10 +17,11 @@ name = os.getenv("TRAVIS_TAG")
 # name = 'v4.0.0-beta1-testing'
 # name = 'v4.0.1'
 
-if not name and len(sys.argv)>1 :
-    name=sys.argv[1]
-else :
-    name='master'
+if not name :
+    if len(sys.argv)>1 :
+        name=sys.argv[1]
+    else :
+        name='master'
 
 version = name
 for c in ('main', 'testing', 'experimental'):
