@@ -19,7 +19,7 @@ Notes and tools to crossbuild Grafana. Used to build on [travis](https://travis-
 
 ## `docker/`
 The `docker/` folder contains `Dockerfile` and related files to build images
-running grafana for armhf.
+running grafana for armhf. Corresponding images are on [dockerhub](https://hub.docker.com/r/fg2it/grafana-armhf/).
 
 ## `old-versions/`
 This directory contains notes for versions from 2.1.2 up to 3.1.1 for wheezy and jessie distro.
