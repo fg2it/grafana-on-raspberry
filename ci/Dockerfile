@@ -10,8 +10,8 @@ ENV LABEL=${LABEL} \
     DEPTH=${DEPTH} \
     PATH=/usr/local/go/bin:$PATH \
     GOPATH=/tmp/graf-build \
-    NODEVERSION=5.11.1 \
-    GOVERSION=1.7.3
+    NODEVERSION=6.9.2 \
+    GOVERSION=1.7.4
 
 RUN apt-get update       && \
     apt-get install -y      \
@@ -38,7 +38,8 @@ RUN apt-get update       && \
     git clone -b ${LABEL} --depth ${DEPTH} --single-branch https://github.com/grafana/grafana.git && \
     cd $GOPATH/src/github.com/grafana/grafana  && \
     git checkout ${COMMIT}                     && \
-    npm install                                && \
+    npm install -g yarn                        && \
+    yarn install                               && \
     go run build.go setup
 
 COPY ./build.sh /
