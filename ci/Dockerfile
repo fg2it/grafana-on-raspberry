@@ -39,7 +39,7 @@ RUN apt-get update       && \
     cd $GOPATH/src/github.com/grafana/grafana  && \
     git checkout ${COMMIT}                     && \
     npm install -g yarn                        && \
-    yarn install                               && \
+    yarn install --pure-lockfile               && \
     go run build.go setup
 
 COPY ./build.sh /
