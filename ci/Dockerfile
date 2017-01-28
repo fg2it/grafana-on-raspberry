@@ -25,6 +25,7 @@ RUN apt-get update       && \
         libc-dev            \
         libfontconfig1      \
         make                \
+        python              \
         ruby                \
         ruby-dev            \
         xz-utils        &&  \
