@@ -1,4 +1,6 @@
 # grafana-on-raspberry through docker
+[![](https://images.microbadger.com/badges/version/fg2it/grafana-armhf.svg)](https://microbadger.com/images/fg2it/grafana-armhf) [![](https://images.microbadger.com/badges/image/fg2it/grafana-armhf.svg)](https://microbadger.com/images/fg2it/grafana-armhf) [![Docker Pulls](https://img.shields.io/docker/pulls/fg2it/grafana-armhf.svg?style=flat-square)](https://hub.docker.com/r/fg2it/grafana-armhf/)
+
 [Grafana](http://grafana.org) *unofficial* docker image for armhf.
 
 The build process closely follows the [official
