@@ -1,6 +1,5 @@
 #Cross build Grafana master for armv6-v7 wheezy/jessie using node 5.10.1
 FROM debian:jessie
-MAINTAINER fg2it
 
 ARG LABEL=master
 ARG DEPTH=1
@@ -11,10 +10,11 @@ ENV LABEL=${LABEL} \
     PATH=/usr/local/go/bin:$PATH \
     GOPATH=/tmp/graf-build \
     NODEVERSION=6.9.2 \
-    GOVERSION=1.7.4
+    GOVERSION=1.8rc3
 
 RUN apt-get update       && \
     apt-get install -y      \
+        apt-transport-https \
         binutils            \
         bzip2               \
         ca-certificates     \
@@ -39,7 +39,9 @@ RUN apt-get update       && \
     git clone -b ${LABEL} --depth ${DEPTH} --single-branch https://github.com/grafana/grafana.git && \
     cd $GOPATH/src/github.com/grafana/grafana  && \
     git checkout ${COMMIT}                     && \
-    npm install -g yarn                        && \
+    curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && \
+    echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list && \
+    apt-get update && apt-get install yarn     && \
     yarn install --pure-lockfile               && \
     go run build.go setup
 

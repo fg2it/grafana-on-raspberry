@@ -5,8 +5,9 @@ set -x
 usage() {
   base="$(basename "$0")"
   cat <<EOUSAGE
-usage: $base <arch>
+usage: $base [-r] <arch>
 Install specific packages to build grafana for either armv6 or armv7
+Use -r for release package
 Available arch:
   $base armv6
   $base armv7
@@ -48,9 +49,18 @@ build() {
      -cc=$CC                        \
      -cxx=$CXX                      \
      -phjs=${PHJS}                  \
+     -includeBuildNumber=${includeBuildNumber} \
          build                      \
          pkg-deb
 }
+
+
+includeBuildNumber="true"
+if [ "$1" == "-r" ]; then
+  echo "Package for release"
+  includeBuildNumber="false"
+  shift
+fi
 
 if (( $# != 1 )); then
 	usage >&2

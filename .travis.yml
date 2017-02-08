@@ -11,8 +11,8 @@ before_script:
   - ci/createImage.py
 
 script:
-  - docker run --name build-armv6 fg2it/grafana-builder ./build.sh armv6
-  - docker run --name build-armv7 fg2it/grafana-builder ./build.sh armv7
+  - docker run --name build-armv6 fg2it/grafana-builder ./build.sh ${TRAVIS_TAG:+-r} armv6
+  - docker run --name build-armv7 fg2it/grafana-builder ./build.sh ${TRAVIS_TAG:+-r} armv7
 
 after_success:
   - docker cp build-armv6:/tmp/graf-build/src/github.com/grafana/grafana/dist/ armv6
