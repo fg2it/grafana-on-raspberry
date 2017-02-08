@@ -39,7 +39,9 @@ RUN apt-get update       && \
     git clone -b ${LABEL} --depth ${DEPTH} --single-branch https://github.com/grafana/grafana.git && \
     cd $GOPATH/src/github.com/grafana/grafana  && \
     git checkout ${COMMIT}                     && \
-    npm install -g yarn                        && \
+    curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && \
+    echo "deb [arch=amd64] https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list && \
+    apt-get update && apt-get install yarn     && \
     yarn install --pure-lockfile               && \
     go run build.go setup
 
