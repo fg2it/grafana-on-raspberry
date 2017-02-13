@@ -22,6 +22,7 @@ echo "GRAFANA PACKAGE NAME: ${_pkg_name}"
 echo "DOCKER TAG: ${_docker_tag}"
 
 docker build                                           \
+       --pull                                          \
        --build-arg REPO_TAG=${_repo_tag}               \
        --build-arg PKG_NAME=${_pkg_name}               \
        --tag "fg2it/grafana-armhf:${_docker_tag}" .
