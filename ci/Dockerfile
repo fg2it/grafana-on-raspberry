@@ -15,6 +15,7 @@ ENV LABEL=${LABEL} \
 
 RUN apt-get update       && \
     apt-get install -y      \
+        apt-transport-https \
         binutils            \
         bzip2               \
         ca-certificates     \
