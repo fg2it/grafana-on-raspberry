@@ -1,4 +1,4 @@
-#Cross build Grafana master for armv6-v7 wheezy/jessie using node 5.10.1
+#Cross build Grafana master for armv6-v7 wheezy/jessie
 FROM debian:jessie
 
 ARG LABEL=master
@@ -10,7 +10,7 @@ ENV LABEL=${LABEL} \
     PATH=/usr/local/go/bin:$PATH \
     GOPATH=/tmp/graf-build \
     NODEVERSION=6.9.2 \
-    GOVERSION=1.8rc3
+    GOVERSION=1.8
 
 RUN apt-get update       && \
     apt-get install -y      \
