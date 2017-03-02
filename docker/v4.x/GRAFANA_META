@@ -1,5 +1,8 @@
-REPO_TAG=v4.1.2
-GRAFANA_STAMP=1487023783
+REPO_TAG=v4.2.0-beta1-testing
+#no more stamp since Grafana changed its naming convention
+
+#REPO_TAG=v4.1.2
+#GRAFANA_STAMP=1487023783
 
 #REPO_TAG=v4.1.1
 #GRAFANA_STAMP=1484347088
