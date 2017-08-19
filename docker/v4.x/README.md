@@ -1,6 +1,6 @@
 # Unofficial Grafana Docker image for armhf
 
-> here v4.x stands for any of v4.0.0-beta[1-2], v4.0.[1-2], v4.1.0-beta1, v4.1.[0-2], v4.2.0-beta1, v4.2.0, v4.3.0-beta1, v4.3.[0-2], v4.4.[0-1]
+> here v4.x stands for any of v4.0.0-beta[1-2], v4.0.[1-2], v4.1.0-beta1, v4.1.[0-2], v4.2.0-beta1, v4.2.0, v4.3.0-beta1, v4.3.[0-2], v4.4.[0-2]
 
 This project builds a Docker image with an unofficial grafana
 build for armhf available [here](https://github.com/fg2it/grafana-on-raspberry/releases/) and
