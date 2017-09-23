@@ -10,7 +10,7 @@ ENV LABEL=${LABEL} \
     PATH=/usr/local/go/bin:$PATH \
     GOPATH=/tmp/graf-build \
     NODEVERSION=6.9.2 \
-    GOVERSION=1.8
+    GOVERSION=1.9
 
 RUN apt-get update       && \
     apt-get install -y      \
