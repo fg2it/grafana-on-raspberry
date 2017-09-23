@@ -1,4 +1,5 @@
-FROM resin/armv7hf-debian:jessie
+ARG RELEASE=jessie
+FROM resin/armv7hf-debian:${RELEASE}
 
 ARG REPO_TAG
 ARG PKG_NAME

@@ -23,7 +23,8 @@ def descriptor(arch):
   }
 
   _version = {
-    "name": name
+    "name": name,
+    "vcs_tag": name
   }
 
   _files = [
