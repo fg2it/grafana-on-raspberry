@@ -1,6 +1,6 @@
 # Unofficial Grafana Docker image for armhf
 
-> here v4.x stands for any of v4.0.0-beta[1-2], v4.0.[1-2], v4.1.0-beta1, v4.1.[0-2], v4.2.0-beta1, v4.2.0, v4.3.0-beta1, v4.3.[0-2], v4.4.[0-3]
+> here v4.x stands for any of v4.0.0-beta[1-2], v4.0.[1-2], v4.1.0-beta1, v4.1.[0-2], v4.2.0-beta1, v4.2.0, v4.3.0-beta1, v4.3.[0-2], v4.4.[0-3], v4.5.0-beta1, v4.5.[0-2]
 
 This project builds a Docker image with an unofficial grafana
 build for armhf available [here](https://github.com/fg2it/grafana-on-raspberry/releases/) and
@@ -10,7 +10,7 @@ image](https://github.com/grafana/grafana-docker). The base docker image is
 
 The container are available on [dockerhub](https://hub.docker.com/r/fg2it/grafana-armhf/).
 See [dockerhub](https://hub.docker.com/r/fg2it/grafana-armhf/tags) for available
-version. Alternately, you can just have a look at the `GRAFANA_META` file or use the registry api :
+version. Alternately, you can just have a look at the `grafana.yaml` file or use the registry api :
 ```bash
 curl -s -S https://registry.hub.docker.com/v2/repositories/fg2it/grafana-armhf/tags/ | python -m json.tool | grep 'name.*v4'
 ```
