@@ -10,7 +10,7 @@ ENV LABEL=${LABEL} \
     PATH=/usr/local/go/bin:$PATH \
     GOPATH=/tmp/graf-build \
     NODEVERSION=6.9.2 \
-    GOVERSION=1.9
+    GOVERSION=1.8
 
 RUN apt-get update       && \
     apt-get install -y      \
@@ -41,7 +41,7 @@ RUN apt-get update       && \
     git checkout ${COMMIT}                     && \
     curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && \
     echo "deb [arch=amd64] https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list && \
-    apt-get update && apt-get install yarn=0.27.5-1    && \
+    apt-get update && apt-get install yarn     && \
     yarn install --pure-lockfile               && \
     go run build.go setup
 
