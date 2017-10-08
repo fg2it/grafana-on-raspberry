@@ -10,12 +10,12 @@ Build the docker image
 $ docker build [--build-arg LABEL=<grafana-tag>] [--build-arg DEPTH=<depth>] [--build-arg COMMIT=<git-commit>] -t grafana-builder .
 ```
 >- LABEL is a branch or a tag of grafana github repo, default is master
-- DEPTH is the number of commit to be checkout, default is 1
-- COMMIT is a specific commit to checkout, default is head
+>- DEPTH is the number of commit to be checkout, default is 1
+>- COMMIT is a specific commit to checkout, default is head
 >
-As a consequence:
-- without option, it prepares build of current commit on master
-- if you intend to build a specific commit, COMMIT should be reachable within the DEPTH commits from current head of the branch LABEL
+> As a consequence:
+>- without option, it prepares build of current commit on master
+>- if you intend to build a specific commit, COMMIT should be reachable within the DEPTH commits from current head of the branch LABEL
 
 Build Grafana depending on your target,
 ```bash
