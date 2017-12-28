@@ -8,7 +8,7 @@ RUN apt-get update && \
     apt-get -y --no-install-recommends install libfontconfig curl ca-certificates && \
     apt-get clean && \
     curl -o /tmp/grafana.deb -L https://github.com/fg2it/grafana-on-raspberry/releases/download/${REPO_TAG}/grafana_${PKG_NAME}_armhf.deb && \
-    curl -o /usr/sbin/gosu -fsSL "https://github.com/tianon/gosu/releases/download/1.9/gosu-$(dpkg --print-architecture)" && \
+    curl -o /usr/sbin/gosu -fsSL "https://github.com/tianon/gosu/releases/download/1.10/gosu-$(dpkg --print-architecture)" && \
     chmod +x /usr/sbin/gosu && \
     apt-get remove -y curl  && \
     apt-get autoremove -y   && \
