@@ -21,6 +21,7 @@ RUN chmod 700 /build.sh  && \
         bzip2               \
         ca-certificates     \
         curl                \
+        dh-autoreconf       \
         g++                 \
         gcc                 \
         git                 \
