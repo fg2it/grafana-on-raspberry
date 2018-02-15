@@ -34,7 +34,7 @@ deploy_commit() {
 wait_travis() {
   STATE=$(travis history -b ${VERSION} --no-interactive | head -n1 | cut -f2 -d' ')
   sleep 600
-  for i in `seq 1 15`; do
+  for i in `seq 1 25`; do
     echo ${STATE}
     case ${STATE} in
       passed:)
