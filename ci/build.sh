@@ -31,8 +31,6 @@ armv6_install_cross(){
 }
 
 armv7_install_cross() {
-  echo "deb http://emdebian.org/tools/debian/ jessie main" > /etc/apt/sources.list.d/crosstools.list
-  curl -sSL http://emdebian.org/tools/debian/emdebian-toolchain-archive.key | apt-key add -
   dpkg --add-architecture armhf
   apt-get update
   apt-get install -y crossbuild-essential-armhf

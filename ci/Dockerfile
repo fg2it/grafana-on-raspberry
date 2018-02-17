@@ -1,5 +1,5 @@
-#Cross build Grafana master for armv6-v7 wheezy/jessie
-FROM debian:jessie
+#Cross build Grafana master for armv6-v7 wheezy/jessie/stretch
+FROM debian:stretch
 
 ARG LABEL=master
 ARG DEPTH=1
@@ -37,7 +37,7 @@ RUN chmod 700 /build.sh  && \
       | tar -xJ --strip-components=1 -C /usr/local && \
     curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && \
     echo "deb [arch=amd64] https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list && \
-    apt-get update && apt-get install yarn     && \
+    apt-get update && apt-get install --no-install-recommends yarn     && \
     mkdir -p $GOPATH/src/github.com/grafana    && \
     cd $GOPATH/src/github.com/grafana          && \
     git clone -b ${LABEL} --depth ${DEPTH} --single-branch https://github.com/grafana/grafana.git && \
