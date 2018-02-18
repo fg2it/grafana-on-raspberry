@@ -44,7 +44,7 @@ Due to some `C` bindings in some go modules used in Grafana, a `c/c++` toolchain
 [raspberrypi/tools](https://github.com/raspberrypi/tools), see
 [here](https://github.com/fg2it/cross-rpi1b).
 
-> For armv7, the toolchain comes from [Emdebian](http://www.emdebian.org/).
+> For armv7, the toolchain comes from `crossbuild-essential-armhf` package (stretch).
 
 It uses a v2.1.1 PhantomJS binary from my
 [phantomjs-on-raspberry](https://github.com/fg2it/phantomjs-on-raspberry) repo.
