@@ -48,7 +48,7 @@ wait_travis() {
       ;;
     esac
     sleep 60
-    STATE=$(travis history -b ${VERSION} --no-interactive | cut -f2 -d' ')
+    STATE=$(travis history -b ${VERSION} --no-interactive | head -n1 | cut -f2 -d' ')
   done
   if [[ ${STATE} != *passed:* ]]; then
     echo "** Err: Travis build timeout (current state: ${STATE})"
