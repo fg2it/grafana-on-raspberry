@@ -3,6 +3,14 @@ FROM resin/armv7hf-debian:${RELEASE}
 
 ARG REPO_TAG
 ARG PKG_NAME
+ARG BUILD_DATE
+ARG VCS_REF
+
+LABEL org.label-schema.schema-version="1.0"
+LABEL org.label-schema.build-date=$BUILD_DATE
+LABEL org.label-schema.vcs-url="https://github.com/fg2it/grafana-on-raspberry"
+LABEL org.label-schema.vcs-ref=$VCS_REF
+
 
 RUN apt-get update && \
     apt-get -y --no-install-recommends install libfontconfig curl ca-certificates && \

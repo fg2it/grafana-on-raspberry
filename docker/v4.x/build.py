@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import argparse
 import collections
+import datetime
 import subprocess
 import sys
 import yaml
@@ -38,12 +39,16 @@ def setup(git_tag,stamp,release, c_dict):
     return docker_tag, pkg_name
 
 def build(git_tag,docker_tag,pkg_name,release):
+    build_date = datetime.datetime.utcnow().isoformat('T')+'Z'
+    vcs_ref = subprocess.getoutput('git rev-parse --short HEAD')
     subprocess.call(
         ["docker", "build",
          "--pull",
          "--build-arg", "RELEASE={}".format(release),
          "--build-arg", "REPO_TAG={}".format(git_tag),
          "--build-arg", "PKG_NAME={}".format(pkg_name),
+         "--build-arg", "BUILD_DATE={}".format(build_date),
+         "--build-arg", "VCS_REF={}".format(vcs_ref),
          "--tag", "fg2it/grafana-armhf:{}".format(docker_tag),
          "."
         ],
