@@ -36,9 +36,9 @@ if [ ! -z "${GF_INSTALL_PLUGINS}" ]; then
   OLDIFS=$IFS
   IFS=','
   for plugin in ${GF_INSTALL_PLUGINS}; do
+    IFS=$OLDIFS
     gosu grafana grafana-cli --pluginsDir "${GF_PATHS_PLUGINS}" plugins install ${plugin}
   done
-  IFS=$OLDIFS
 fi
 
 exec gosu grafana /usr/sbin/grafana-server      \
