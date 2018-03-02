@@ -25,9 +25,9 @@ after_success:
   - export TARBALL7=`ls armv7/grafana*.tar.gz`
   - echo $DEB7 $TARBALL7
   - docker cp build-arm64:/tmp/graf-build/src/github.com/grafana/grafana/dist/ arm64
-  - export DEB7=`ls arm64/grafana*.deb`
+  - export DEB64=`ls arm64/grafana*.deb`
   - export TARBALL64=`ls arm64/grafana*.tar.gz`
-  - echo $DEB7 $TARBALL64
+  - echo $DEB64 $TARBALL64
   - ./ci/createDescriptionFile.py
   - cat armv6.d
   - cat armv7.d
@@ -40,6 +40,8 @@ deploy:
     file:
       - $DEB7
       - $TARBALL7
+      - $DEB64
+      - $TARBALL64
     skip_cleanup: true
     on:
       tags: true
