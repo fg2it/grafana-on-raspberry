@@ -2,7 +2,9 @@
 
 This directory contains `Dockerfile` and helper script to crossbuild Grafana for
 armv6 (raspberry pi 1) and armv7 (raspberry pi 2 and pi 3) from an x64 host
-inside a docker container.
+inside a (debian stretch) docker container.
+
+> For arm64, this build grafana with an arm64 phantomjs binary.
 
 ## Usage
 Build the docker image
@@ -25,7 +27,10 @@ or
 ```bash
 $ docker run --name build-armv7 grafana-builder ./build.sh armv7
 ```
-
+or
+```bash
+$ docker run --name build-arm64 grafana-builder ./build.sh arm64
+```
 
 Then you can extract .deb and tarball from the container:
 ```bash
@@ -34,6 +39,10 @@ $ docker cp build-armv6:/tmp/graf-build/src/github.com/grafana/grafana/dist/ arm
 or
 ```bash
 $ docker cp build-armv7:/tmp/graf-build/src/github.com/grafana/grafana/dist/ armv7
+```
+or
+```bash
+$ docker cp build-arm64:/tmp/graf-build/src/github.com/grafana/grafana/dist/ arm64
 ```
 
 ## How it works
@@ -44,7 +53,7 @@ Due to some `C` bindings in some go modules used in Grafana, a `c/c++` toolchain
 [raspberrypi/tools](https://github.com/raspberrypi/tools), see
 [here](https://github.com/fg2it/cross-rpi1b).
 
-> For armv7, the toolchain comes from `crossbuild-essential-armhf` package (stretch).
+> For armv7 and arm64, the toolchains come from `crossbuild-essential-armhf` `crossbuild-essential-arm64` packages (stretch).
 
-It uses a v2.1.1 PhantomJS binary from my
+For all three targets, it uses a v2.1.1 PhantomJS binary from my
 [phantomjs-on-raspberry](https://github.com/fg2it/phantomjs-on-raspberry) repo.

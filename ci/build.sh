@@ -11,6 +11,7 @@ Use -r for release package
 Available arch:
   $base armv6
   $base armv7
+  $base arm64
 EOUSAGE
 }
 
@@ -38,10 +39,18 @@ armv7_install_cross() {
   CXX=arm-linux-gnueabihf-g++
 }
 
+arm64_install_cross() {
+  dpkg --add-architecture arm64
+  apt-get update
+  apt-get install -y crossbuild-essential-arm64
+  CC=aarch64-linux-gnu-gcc
+  CXX=aarch64-linux-gnu-g++
+}
+
 build() {
   cd $GOPATH/src/github.com/grafana/grafana
   go run build.go                   \
-     -pkg-arch=armhf                \
+     -pkg-arch=${ARCH}              \
      -goarch=${ARM}                 \
      -cgo-enabled=1                 \
      -cc=$CC                        \
@@ -71,10 +80,17 @@ case "$ARM" in
   armv6)
     PHJSV="v2.1.1-wheezy-jessie-armv6"
     armv6_install_cross
+    ARCH="armhf"
     ;;
   armv7)
     PHJSV="v2.1.1-wheezy-jessie"
     armv7_install_cross
+    ARCH="armhf"
+    ;;
+  arm64)
+    PHJSV="v2.1.1-stretch-arm64"
+    arm64_install_cross
+    ARCH="arm64"
     ;;
   *)
     echo >&2 'error: unknown arch:' "$ARM"

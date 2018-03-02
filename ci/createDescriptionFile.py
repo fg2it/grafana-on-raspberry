@@ -5,7 +5,14 @@ import re
 
 repo={
     'armv6' : 'deb-rpi-1b',
-    'armv7' : 'deb'
+    'armv7' : 'deb',
+    'arm64' : 'deb-arm64'
+}
+
+darch={
+    'armv6' : 'armhf',
+    'armv7' : 'armhf',
+    'arm64' : 'arm64'
 }
 
 name = os.getenv("TRAVIS_TAG")
@@ -27,6 +34,11 @@ def descriptor(arch):
     "vcs_tag": name
   }
 
+  if arch == "arm64":
+    comp = 'experimental'
+  else:
+    comp = component
+
   _files = [
     {
       "includePattern": "{}/(.*\.deb$)".format(arch),
@@ -34,7 +46,7 @@ def descriptor(arch):
       "matrixParams": {
         "deb_distribution": "wheezy,jessie,stretch",
         "deb_component": component,
-        "deb_architecture": "armhf"
+        "deb_architecture": darch[arch]
       }
     }
   ]
@@ -46,5 +58,5 @@ def descriptor(arch):
     "publish" : True
   }
 
-for arch in ('armv6','armv7'):
+for arch in ('armv6','armv7','arm64'):
   print(json.dumps(descriptor(arch)),file=open(arch+'.d','w'))

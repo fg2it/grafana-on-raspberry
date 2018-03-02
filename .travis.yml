@@ -7,12 +7,13 @@ services:
 install: true
 
 before_script:
-  - docker pull debian:jessie
+  - docker pull debian:stretch
   - ci/createImage.py
 
 script:
   - docker run --name build-armv6 fg2it/grafana-builder ./build.sh ${TRAVIS_TAG:+-r} armv6
   - docker run --name build-armv7 fg2it/grafana-builder ./build.sh ${TRAVIS_TAG:+-r} armv7
+  - docker run --name build-arm64 fg2it/grafana-builder ./build.sh ${TRAVIS_TAG:+-r} arm64
 
 after_success:
   - docker cp build-armv6:/tmp/graf-build/src/github.com/grafana/grafana/dist/ armv6
@@ -23,9 +24,14 @@ after_success:
   - export DEB7=`ls armv7/grafana*.deb`
   - export TARBALL7=`ls armv7/grafana*.tar.gz`
   - echo $DEB7 $TARBALL7
+  - docker cp build-arm64:/tmp/graf-build/src/github.com/grafana/grafana/dist/ arm64
+  - export DEB7=`ls arm64/grafana*.deb`
+  - export TARBALL64=`ls arm64/grafana*.tar.gz`
+  - echo $DEB7 $TARBALL64
   - ./ci/createDescriptionFile.py
   - cat armv6.d
   - cat armv7.d
+  - cat arm64.d
 
 deploy:
   - provider: releases
@@ -48,6 +54,14 @@ deploy:
       tags: true
   - provider: bintray
     file: armv7.d
+    user: fg2it
+    key:
+      secure: "FteIGr9J9B93Etvy5PmuAx5cZpB5sCt1Bn7FXf75zcAtWUMQEUHwqc995XrAjPrnFZ9yWMF1kInmRIg8ejbLx0PuBWBhJU60FPwRPm+2M2WM8Shc98DXPIm6A+xKC06yt8rU6/nyYyKrJBEf0kPiOHjnXE4rgqZaLVA+UbfSEuCVclmylxecZYNDvjIVJpDQghp6fCUhMqUjwO9UICZfl9ZhRXBeeZloUhR0qwF9orEtjW8usE6PDWl136tqAqBMQOe06Qz+n9JKPqAKIzdLOrviDKr8uDxA/ZPucuAHYCScq3IuRNwgdzgOKOvlVVDW5+uObEWahKEQHs8e7zC4fKdscq5CsZhuY0rVV8G6UNW3Hj69OL7gefiQ5Bd88QoF0X2/CFPe+5GngehpbMnIAg8iH55pEC5v516w4zaij4lyUlcY/o9foSre8YJaD5UlkfsGCj5HJiOnPLCK6l1rtxVTbol4GYq8+w5kWQhfHzfTp4GzUZuQS12K32kynDt3EV0To3VPpbTxK4+Bdw5BnEo+gYaV9/ynM6BiCqlnNUWi42JzUwpC1MFiesVuEaZ/IgtXeZM9/vnp1WgKZDwqDNfvvv7l+DaLI4h+kx7cgSi6EQraxOLBMu/i76CAh6SXunHIKyIhIo1FbQJ8n2HohTZ6bD3jIbnJz/KEqNkeCyA="
+    skip_cleanup: true
+    on:
+      tags: true
+  - provider: bintray
+    file: arm64.d
     user: fg2it
     key:
       secure: "FteIGr9J9B93Etvy5PmuAx5cZpB5sCt1Bn7FXf75zcAtWUMQEUHwqc995XrAjPrnFZ9yWMF1kInmRIg8ejbLx0PuBWBhJU60FPwRPm+2M2WM8Shc98DXPIm6A+xKC06yt8rU6/nyYyKrJBEf0kPiOHjnXE4rgqZaLVA+UbfSEuCVclmylxecZYNDvjIVJpDQghp6fCUhMqUjwO9UICZfl9ZhRXBeeZloUhR0qwF9orEtjW8usE6PDWl136tqAqBMQOe06Qz+n9JKPqAKIzdLOrviDKr8uDxA/ZPucuAHYCScq3IuRNwgdzgOKOvlVVDW5+uObEWahKEQHs8e7zC4fKdscq5CsZhuY0rVV8G6UNW3Hj69OL7gefiQ5Bd88QoF0X2/CFPe+5GngehpbMnIAg8iH55pEC5v516w4zaij4lyUlcY/o9foSre8YJaD5UlkfsGCj5HJiOnPLCK6l1rtxVTbol4GYq8+w5kWQhfHzfTp4GzUZuQS12K32kynDt3EV0To3VPpbTxK4+Bdw5BnEo+gYaV9/ynM6BiCqlnNUWi42JzUwpC1MFiesVuEaZ/IgtXeZM9/vnp1WgKZDwqDNfvvv7l+DaLI4h+kx7cgSi6EQraxOLBMu/i76CAh6SXunHIKyIhIo1FbQJ8n2HohTZ6bD3jIbnJz/KEqNkeCyA="
