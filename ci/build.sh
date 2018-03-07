@@ -6,7 +6,7 @@ usage() {
   base="$(basename "$0")"
   cat <<EOUSAGE
 usage: $base [-r] <arch>
-Install specific packages to build grafana for either armv6 or armv7
+Install specific packages to build grafana for either armv6, armv7 or arm64
 Use -r for release package
 Available arch:
   $base armv6
@@ -28,23 +28,16 @@ armv6_install_cross(){
   git clone https://github.com/fg2it/cross-rpi1b.git
   CROSSPATH="/tmp/cross-rpi1b/arm-rpi-4.9.3-linux-gnueabihf/bin/"
   CC=${CROSSPATH}/arm-linux-gnueabihf-gcc
-  CXX=${CROSSPATH}/arm-linux-gnueabihf-g++
 }
 
 armv7_install_cross() {
-  dpkg --add-architecture armhf
-  apt-get update
-  apt-get install -y crossbuild-essential-armhf
+  apt-get install -y gcc-arm-linux-gnueabihf
   CC=arm-linux-gnueabihf-gcc
-  CXX=arm-linux-gnueabihf-g++
 }
 
 arm64_install_cross() {
-  dpkg --add-architecture arm64
-  apt-get update
-  apt-get install -y crossbuild-essential-arm64
+  apt-get install -y gcc-aarch64-linux-gnu
   CC=aarch64-linux-gnu-gcc
-  CXX=aarch64-linux-gnu-g++
 }
 
 build() {
@@ -54,7 +47,6 @@ build() {
      -goarch=${ARM}                 \
      -cgo-enabled=1                 \
      -cc=$CC                        \
-     -cxx=$CXX                      \
      -phjs=${PHJS}                  \
      -includeBuildNumber=${includeBuildNumber} \
          build                      \
