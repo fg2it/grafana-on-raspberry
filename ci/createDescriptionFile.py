@@ -45,7 +45,7 @@ def descriptor(arch):
       "uploadPattern": "{}/g/$1".format(component),
       "matrixParams": {
         "deb_distribution": "wheezy,jessie,stretch",
-        "deb_component": component,
+        "deb_component": comp,
         "deb_architecture": darch[arch]
       }
     }
