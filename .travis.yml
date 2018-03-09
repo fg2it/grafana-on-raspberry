@@ -18,7 +18,7 @@ after_success:
   - export DEB6=`ls armv6/grafana*.deb`
   - export TARBALL6=`ls armv6/grafana*.tar.gz`
   - echo $DEB6 $TARBALL6
-  - ./ci/createDescriptionFile.py
+  - TRAVIS_TAG=v5.0.1-testing ./ci/createDescriptionFile.py
   - cat armv6.d
   - cat armv7.d
   - cat arm64.d
