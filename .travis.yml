@@ -8,12 +8,12 @@ install: true
 
 before_script:
   - docker pull debian:stretch
-  - TRAVIS_TAG=v5.0.1 ci/createImage.py
+  - ci/createImage.py
 
 script:
-  - docker run --name build-armv6 fg2it/grafana-builder ./build.sh -r armv6
-  - docker run --name build-armv7 fg2it/grafana-builder ./build.sh -r armv7
-  - docker run --name build-arm64 fg2it/grafana-builder ./build.sh -r arm64
+  - docker run --name build-armv6 fg2it/grafana-builder ./build.sh ${TRAVIS_TAG:+-r} armv6
+  - docker run --name build-armv7 fg2it/grafana-builder ./build.sh ${TRAVIS_TAG:+-r} armv7
+  - docker run --name build-arm64 fg2it/grafana-builder ./build.sh ${TRAVIS_TAG:+-r} arm64
 
 after_success:
   - docker cp build-armv6:/tmp/graf-build/src/github.com/grafana/grafana/dist/ armv6
@@ -28,12 +28,26 @@ after_success:
   - export DEB64=`ls arm64/grafana*.deb`
   - export TARBALL64=`ls arm64/grafana*.tar.gz`
   - echo $DEB64 $TARBALL64
-  - TRAVIS_TAG=v5.0.1 ./ci/createDescriptionFile.py
+  - ./ci/createDescriptionFile.py
   - cat armv6.d
   - cat armv7.d
   - cat arm64.d
 
 deploy:
+  - edge:
+      branch: v1.8.47
+    provider: releases
+    api_key:
+      secure: LjYT1dj3oDB7jy66jW+sbo7TIN6z7dlJPlDydH0lT3r+3ihoEXzbE1t14MtiIf4oBtiHhFFJwFP/B6SyhCz8eFZh+8ozIUI+5BI5tz0dQD/q7LVTncP/UFR+z718Ggt34J4/K2clYnoRf1xAIz/whriZSimg58yn+nCM8soRo1iFaZ4IMnVNbDV8oV2k4ePOSymn63orAqY441P6XzmguIgISYoxgr22nLfws1YSUmB9xAhgMXmrOUofDVVLZnXHDPyxzL6trTGL1n4FHTFqGjK932DUOV3g6BjA7twB7ewIG035zL7/VqEvTkC4TQv5ZC7q5L0y4ifUEcqq1cpgBbfuJvsklYtgnubKaoVqiO4BRXSW9gM1frGv6MVegQBwM2/QR9BKxxxT9w6XIyfnNWim28mfGr0wvblSL7tIx3v4bboIL/8R9OkDpqp9LL+WxtgHnWmd3FRonhMJtm4F88775QsrwOZZecJmk6xQIpMjv3NKeHJFJvCgNcDtVfcR8eNqAYkGgjLD5iOiy7MQpc75fq5usR6p9rEBI4+UAhrVv3aLgK7lA8RHLyCkOzkyBoBeevRGdPN5exyqTMk1KxtFZu+3BDdYFC1JAFyHccfXfJyflOglabMdL51uvkBcs6gXx0G6sTxAjE9H+hFu6JMzSMgROwLyznoi5Ycvu9s=
+    file:
+      - $DEB7
+      - $TARBALL7
+      - $DEB64
+      - $TARBALL64
+    skip_cleanup: true
+    on:
+      tags: true
+      repo: fg2it/grafana-on-raspberry
   - edge:
       branch: v1.8.47
     provider: bintray
@@ -42,6 +56,8 @@ deploy:
     key:
       secure: "FteIGr9J9B93Etvy5PmuAx5cZpB5sCt1Bn7FXf75zcAtWUMQEUHwqc995XrAjPrnFZ9yWMF1kInmRIg8ejbLx0PuBWBhJU60FPwRPm+2M2WM8Shc98DXPIm6A+xKC06yt8rU6/nyYyKrJBEf0kPiOHjnXE4rgqZaLVA+UbfSEuCVclmylxecZYNDvjIVJpDQghp6fCUhMqUjwO9UICZfl9ZhRXBeeZloUhR0qwF9orEtjW8usE6PDWl136tqAqBMQOe06Qz+n9JKPqAKIzdLOrviDKr8uDxA/ZPucuAHYCScq3IuRNwgdzgOKOvlVVDW5+uObEWahKEQHs8e7zC4fKdscq5CsZhuY0rVV8G6UNW3Hj69OL7gefiQ5Bd88QoF0X2/CFPe+5GngehpbMnIAg8iH55pEC5v516w4zaij4lyUlcY/o9foSre8YJaD5UlkfsGCj5HJiOnPLCK6l1rtxVTbol4GYq8+w5kWQhfHzfTp4GzUZuQS12K32kynDt3EV0To3VPpbTxK4+Bdw5BnEo+gYaV9/ynM6BiCqlnNUWi42JzUwpC1MFiesVuEaZ/IgtXeZM9/vnp1WgKZDwqDNfvvv7l+DaLI4h+kx7cgSi6EQraxOLBMu/i76CAh6SXunHIKyIhIo1FbQJ8n2HohTZ6bD3jIbnJz/KEqNkeCyA="
     skip_cleanup: true
+    on:
+      tags: true
   - edge:
       branch: v1.8.47
     provider: bintray
@@ -50,6 +66,8 @@ deploy:
     key:
       secure: "FteIGr9J9B93Etvy5PmuAx5cZpB5sCt1Bn7FXf75zcAtWUMQEUHwqc995XrAjPrnFZ9yWMF1kInmRIg8ejbLx0PuBWBhJU60FPwRPm+2M2WM8Shc98DXPIm6A+xKC06yt8rU6/nyYyKrJBEf0kPiOHjnXE4rgqZaLVA+UbfSEuCVclmylxecZYNDvjIVJpDQghp6fCUhMqUjwO9UICZfl9ZhRXBeeZloUhR0qwF9orEtjW8usE6PDWl136tqAqBMQOe06Qz+n9JKPqAKIzdLOrviDKr8uDxA/ZPucuAHYCScq3IuRNwgdzgOKOvlVVDW5+uObEWahKEQHs8e7zC4fKdscq5CsZhuY0rVV8G6UNW3Hj69OL7gefiQ5Bd88QoF0X2/CFPe+5GngehpbMnIAg8iH55pEC5v516w4zaij4lyUlcY/o9foSre8YJaD5UlkfsGCj5HJiOnPLCK6l1rtxVTbol4GYq8+w5kWQhfHzfTp4GzUZuQS12K32kynDt3EV0To3VPpbTxK4+Bdw5BnEo+gYaV9/ynM6BiCqlnNUWi42JzUwpC1MFiesVuEaZ/IgtXeZM9/vnp1WgKZDwqDNfvvv7l+DaLI4h+kx7cgSi6EQraxOLBMu/i76CAh6SXunHIKyIhIo1FbQJ8n2HohTZ6bD3jIbnJz/KEqNkeCyA="
     skip_cleanup: true
+    on:
+      tags: true
   - edge:
       branch: v1.8.47
     provider: bintray
@@ -58,3 +76,5 @@ deploy:
     key:
       secure: "FteIGr9J9B93Etvy5PmuAx5cZpB5sCt1Bn7FXf75zcAtWUMQEUHwqc995XrAjPrnFZ9yWMF1kInmRIg8ejbLx0PuBWBhJU60FPwRPm+2M2WM8Shc98DXPIm6A+xKC06yt8rU6/nyYyKrJBEf0kPiOHjnXE4rgqZaLVA+UbfSEuCVclmylxecZYNDvjIVJpDQghp6fCUhMqUjwO9UICZfl9ZhRXBeeZloUhR0qwF9orEtjW8usE6PDWl136tqAqBMQOe06Qz+n9JKPqAKIzdLOrviDKr8uDxA/ZPucuAHYCScq3IuRNwgdzgOKOvlVVDW5+uObEWahKEQHs8e7zC4fKdscq5CsZhuY0rVV8G6UNW3Hj69OL7gefiQ5Bd88QoF0X2/CFPe+5GngehpbMnIAg8iH55pEC5v516w4zaij4lyUlcY/o9foSre8YJaD5UlkfsGCj5HJiOnPLCK6l1rtxVTbol4GYq8+w5kWQhfHzfTp4GzUZuQS12K32kynDt3EV0To3VPpbTxK4+Bdw5BnEo+gYaV9/ynM6BiCqlnNUWi42JzUwpC1MFiesVuEaZ/IgtXeZM9/vnp1WgKZDwqDNfvvv7l+DaLI4h+kx7cgSi6EQraxOLBMu/i76CAh6SXunHIKyIhIo1FbQJ8n2HohTZ6bD3jIbnJz/KEqNkeCyA="
     skip_cleanup: true
+    on:
+      tags: true
