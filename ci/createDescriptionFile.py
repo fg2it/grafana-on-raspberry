@@ -42,7 +42,7 @@ def descriptor(arch):
   _files = [
     {
       "includePattern": "{}/(.*\.deb$)".format(arch),
-      "uploadPattern": "{}/g/$1".format(component),
+      "uploadPattern": "{}/g/$1".format(comp),
       "matrixParams": {
         "deb_distribution": "wheezy,jessie,stretch",
         "deb_component": comp,
