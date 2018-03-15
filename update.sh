@@ -32,9 +32,12 @@ deploy_commit() {
 }
 
 wait_travis() {
+  sleep 30
   STATE=$(travis history -b ${VERSION} --no-interactive | head -n1 | cut -f2 -d' ')
+  echo ${STATE}
   sleep 600
-  for i in `seq 1 25`; do
+  for i in `seq 1 20`; do
+    STATE=$(travis history -b ${VERSION} --no-interactive | head -n1 | cut -f2 -d' ')
     echo ${STATE}
     case ${STATE} in
       passed:)
@@ -47,8 +50,7 @@ wait_travis() {
         exit 1
       ;;
     esac
-    sleep 60
-    STATE=$(travis history -b ${VERSION} --no-interactive | head -n1 | cut -f2 -d' ')
+    sleep 90
   done
   if [[ ${STATE} != *passed:* ]]; then
     echo "** Err: Travis build timeout (current state: ${STATE})"
