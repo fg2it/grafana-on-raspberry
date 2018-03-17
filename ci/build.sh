@@ -80,7 +80,7 @@ case "$ARM" in
     ARCH="armhf"
     ;;
   arm64)
-    PHJSV="v2.1.1-stretch-arm64"
+    PHJSV="v2.1.1-jessie-stretch-arm64"
     arm64_install_cross
     ARCH="arm64"
     ;;
