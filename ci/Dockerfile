@@ -10,9 +10,9 @@ ENV LABEL=v${GRAFANA_VERSION} \
     GOPATH=/tmp/graf-build \
     NODEVERSION=6.9.2
 
-COPY ./build-fast.sh /
+COPY ./build.sh /
 
-RUN chmod 700 /build-fast.sh  && \
+RUN chmod 700 /build.sh  && \
     apt-get update       && \
     apt-get install -y      \
         apt-transport-https \

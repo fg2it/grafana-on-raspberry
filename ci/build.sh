@@ -14,21 +14,6 @@ Available arch:
 EOUSAGE
 }
 
-download_official_assets(){
-  if [ ! -f /tmp/grafana_${GRAFANA_VERSION}_amd64.deb ]; then
-    curl -L https://s3-us-west-2.amazonaws.com/grafana-releases/release/grafana_${GRAFANA_VERSION}_amd64.deb \
-         -o /tmp/grafana_${GRAFANA_VERSION}_amd64.deb
-    cd /tmp/ && dpkg-deb -R grafana_${GRAFANA_VERSION}_amd64.deb deb
-    mv /tmp/deb/DEBIAN /tmp/DEBIAN
-  fi
-  if [ ! -f /tmp/grafana-${GRAFANA_VERSION}.linux-x64.tar.gz ]; then
-    curl -L https://s3-us-west-2.amazonaws.com/grafana-releases/release/grafana-${GRAFANA_VERSION}.linux-x64.tar.gz \
-         -o /tmp/grafana-${GRAFANA_VERSION}.linux-x64.tar.gz
-    mkdir /tmp/tgz
-    cd /tmp/ && tar xf /tmp/grafana-${GRAFANA_VERSION}.linux-x64.tar.gz -C tgz
-  fi
-}
-
 install_phjs() {
   PHJSURL="https://github.com/fg2it/phantomjs-on-raspberry/releases/download/${PHJSV}"
   PHJS=/tmp/${ARM}/phantomjs
@@ -106,8 +91,6 @@ GRAFANA_VERSION='5.0.3'
 cd $GOPATH/src/github.com/grafana/grafana
 commit=$(git rev-parse --short HEAD)
 buildstamp=$(git show -s --format=%ct)
-
-#download_official_assets
 
 for ARM in "$@"
 do
