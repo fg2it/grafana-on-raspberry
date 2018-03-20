@@ -1,5 +1,5 @@
 ARG RELEASE=jessie
-FROM resin/armv7hf-debian:${RELEASE}
+FROM arm32v7/debian:${RELEASE}-slim
 
 ARG REPO_TAG
 ARG PKG_NAME

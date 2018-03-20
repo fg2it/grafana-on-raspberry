@@ -6,8 +6,8 @@ import subprocess
 import sys
 import yaml
 
-release_def = 'jessie'
-deb_releases = ["wheezy","jessie","stretch"]
+release_def = 'stretch'
+deb_releases = ["jessie","stretch"]
 cfg_file = 'grafana.yaml'
 cfg = yaml.load( open(cfg_file ) )
 
