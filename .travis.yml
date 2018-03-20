@@ -8,23 +8,23 @@ install: true
 
 before_script:
   - docker pull debian:stretch
-  - ci/createImage.py
+  - ci/createImage.py 5.0.3
 
 script:
-  - docker run --name build-armv6 fg2it/grafana-builder ./build.sh ${TRAVIS_TAG:+-r} armv6
-  - docker run --name build-armv7 fg2it/grafana-builder ./build.sh ${TRAVIS_TAG:+-r} armv7
-  - docker run --name build-arm64 fg2it/grafana-builder ./build.sh ${TRAVIS_TAG:+-r} arm64
+  - docker run --name build-armv6 fg2it/grafana-fast-builder ./build.sh armv6
+  - docker run --name build-armv7 fg2it/grafana-fast-builder ./build.sh armv7
+  - docker run --name build-arm64 fg2it/grafana-fast-builder ./build.sh arm64
 
 after_success:
-  - docker cp build-armv6:/tmp/graf-build/src/github.com/grafana/grafana/dist/ armv6
+  - docker cp build-armv6:/tmp/pkg/armv6 armv6
   - export DEB6=`ls armv6/grafana*.deb`
   - export TARBALL6=`ls armv6/grafana*.tar.gz`
   - echo $DEB6 $TARBALL6
-  - docker cp build-armv7:/tmp/graf-build/src/github.com/grafana/grafana/dist/ armv7
+  - docker cp build-armv7:/tmp/pkg/armv7 armv7
   - export DEB7=`ls armv7/grafana*.deb`
   - export TARBALL7=`ls armv7/grafana*.tar.gz`
   - echo $DEB7 $TARBALL7
-  - docker cp build-arm64:/tmp/graf-build/src/github.com/grafana/grafana/dist/ arm64
+  - docker cp build-arm64:/tmp/pkg/arm64 arm64
   - export DEB64=`ls arm64/grafana*.deb`
   - export TARBALL64=`ls arm64/grafana*.tar.gz`
   - echo $DEB64 $TARBALL64
