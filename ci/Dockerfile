@@ -21,7 +21,6 @@ RUN chmod 700 /build.sh  && \
         ca-certificates     \
         curl                \
         dh-autoreconf       \
-        g++                 \
         gcc                 \
         git                 \
         libc-dev            \
