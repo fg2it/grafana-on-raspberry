@@ -18,7 +18,7 @@ before_script:
   - docker volume create assets-fgbw
 
 script:
-  - ci/build_and_package.sh armv6 armv7 arm64
+  - ci/build_and_pack.sh armv6 armv7 arm64
 
 after_success:
   - export DEB6=`ls armv6/grafana*.deb`

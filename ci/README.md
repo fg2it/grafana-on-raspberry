@@ -14,10 +14,10 @@ and prepare packages (tar and deb). Then, two other containers are used to packa
 Build the fg2it/fgbw docker image
 
 ```bash
-docker build [--build-arg GRAFANA_VERSION=<grafana-version] -t fgbw .
+docker build [--build-arg GRAFANA_VERSION=<grafana-version>] -t fgbw .
 ```
 
->- GRAFANA_VERSION must be a released grafana version (without front 'v')
+> `<grafana-version>` must be a released grafana version (without front 'v')
 
 Build Grafana depending on your target, e.g. for armv6
 
