@@ -1,63 +1,43 @@
-# Grafana Crossbuild
+# Grafana Crossbuild Reusing Official Packages
 
 This directory contains `Dockerfile` and helper script to crossbuild Grafana for
-armv6 (raspberry pi 1) and armv7 (raspberry pi 2 and pi 3) from an x64 host
+armv6 (raspberry pi 1), armv7 (raspberry pi 2 and pi 3) and arm64 from an x64 host
 inside a (debian stretch) docker container.
 
 > For arm64, this build grafana with an arm64 phantomjs binary.
 
 ## Usage
-Build the docker image
+
+For each arch, this is a two steps process. A first container (fg2it/fgbw) is used to build grafana
+and prepare packages (tar and deb). Then, two other containers are used to package (one for tar.gz and one for .deb). A docker volume is used to exchange data between containers.
+
+Build the fg2it/fgbw docker image
 
 ```bash
-docker build [--build-arg LABEL=<grafana-tag>] [--build-arg DEPTH=<depth>] [--build-arg COMMIT=<git-commit>] -t grafana-builder .
+docker build [--build-arg GRAFANA_VERSION=<grafana-version] -t fgbw .
 ```
 
->- LABEL is a branch or a tag of grafana github repo, default is master
->- DEPTH is the number of commit to be checkout, default is 1
->- COMMIT is a specific commit to checkout, default is head
->
-> As a consequence:
->- without option, it prepares build of current commit on master
->- if you intend to build a specific commit, COMMIT should be reachable within the DEPTH commits from current head of the branch LABEL
+>- GRAFANA_VERSION must be a released grafana version (without front 'v')
 
-Build Grafana depending on your target,
+Build Grafana depending on your target, e.g. for armv6
 
 ```bash
-docker run --name build-armv6 grafana-builder ./build.sh armv6
+docker volume create assets-fgbw
+docker run --rm -v assets-fgbw:/tmp/assets/ fgbw ./build.sh armv6
 ```
 
-or
+Then, to package
 
 ```bash
-docker run --name build-armv7 grafana-builder ./build.sh armv7
+./package.sh armv6
 ```
 
-or
+The .deb and tarball are in your working directory (`armv6/`, `armv7/` and `arm64/`).
 
-```bash
-docker run --name build-arm64 grafana-builder ./build.sh arm64
-```
-
-Then you can extract .deb and tarball from the container:
-
-```bash
-docker cp build-armv6:/tmp/graf-build/src/github.com/grafana/grafana/dist/ armv6
-```
-
-or
-
-```bash
-docker cp build-armv7:/tmp/graf-build/src/github.com/grafana/grafana/dist/ armv7
-```
-
-or
-
-```bash
-docker cp build-arm64:/tmp/graf-build/src/github.com/grafana/grafana/dist/ arm64
-```
+> `build_and_package.sh armv6` essentially does that.
 
 ## How it works
+
 It uses the crossbuild feature of go exposed via command line options of the
 `build.go` tool from Grafana which was introduced after v3.1.1.
 Due to some `C` bindings in some go modules used in Grafana, a `c/c++` toolchain is needed.
