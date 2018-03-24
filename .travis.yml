@@ -27,12 +27,16 @@ jobs:
         - ARM=armv6
         - ARCH=armhf
         - REPO=dummy
+        - COMPONENT=main
       script:
         - ci/build_and_pack.sh $ARM
         - export DEB=`ls $ARM/grafana*.deb`
         - export TARBALL=`ls $ARM/grafana*.tar.gz`
         - echo $DEB $TARBALL
-        - ci/deploy.sh
+        - |
+        if [ ! -z "$TRAVIS_TAG" ]; then
+          ci/deploy.sh
+        fi
     - <<: *build
       env:
         - ARM=armv7
