@@ -33,10 +33,7 @@ jobs:
         - export DEB=`ls $ARM/grafana*.deb`
         - export TARBALL=`ls $ARM/grafana*.tar.gz`
         - echo $DEB $TARBALL
-        - |
-        if [ ! -z "$TRAVIS_TAG" ]; then
-          ci/deploy.sh
-        fi
+        - ci/deploy.sh
     - <<: *build
       env:
         - ARM=armv7
