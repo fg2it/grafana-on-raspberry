@@ -37,9 +37,11 @@ jobs:
       env:
         - ARM=armv7
         - ARCH=armhf
-        - REPO=dummy        
+        - REPO=dummy
+        - COMPONENT=main
     - <<: *build
       env:
         - ARM=arm64
         - ARCH=arm64
-        - REPO=dummy        
+        - REPO=dummy
+        - COMPONENT=main
