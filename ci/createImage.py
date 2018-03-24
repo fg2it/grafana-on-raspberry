@@ -4,11 +4,14 @@ import os
 import re
 import sys
 
-d={'GRAFANA_VERSION' : sys.argv[1]}
+version = sys.argv[1]
+if version[0]=='v':
+    version=version[1:]
 
+d={'GRAFANA_VERSION' : version}
 
 buildArg = ' '.join( ['--build-arg {}={}'.format(k,v) for k,v in d.items()] )
-cmd =  'docker build {} -t fg2it/grafana-fast-builder -f ci/Dockerfile ci'.format(buildArg)
+cmd =  'docker build {} -t fg2it/fgbw -f ci/Dockerfile ci'.format(buildArg)
 print( cmd )
 os.system( cmd )
   
