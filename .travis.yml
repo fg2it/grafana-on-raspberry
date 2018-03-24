@@ -6,9 +6,11 @@ services:
   - docker
 env:
   global:
-  - ASSETS=/tmp/assets
-  - GRAFANA_VERSION=5.0.3
-  - FPM_VERSION=1.9.3
+    - ASSETS=/tmp/assets
+    - GRAFANA_VERSION=5.0.3
+    - FPM_VERSION=1.9.3
+    - secure: "uafOMoFQo4g7B0IH2Q6cbz+DbwzlRMBHrMr4tlg3DAQcLIORuC3ahwUWzyZ3JExhW20Yk03S2LdSYP70/tACLO1b4KIivISt+z9HcNwBRLJzG0lUQOQh33Fjj1+MGbXtKG9T35nbFmNXzSW7h+322lz4S1ssWXe6N4em0oNriN2UJfO++uiI52PYSSVJtSWhQivoylxI63Q9TSgdKWJtAdNmRwkSC9cfn0GoqoNBI5wIb1z3Jz+oDfK0LnPkreA77oO9l2my1Q0G0/PW4zYsa1IUKt0jBpyjqBbagBfB7uSmT3eNNOhHmBMQkoqp/v0RyebJMkkd8C+VenaTeHB88MeHqZDrOKRnc0vUo2VsBdx8+9QewDdo+M9wEjkz9kFEQmU3KAPKLkO2uoStivx2/dIdAcLnnB/60XoQH8qY4Eiy/XHGQ6h8/pLyNiY6lMcmDQ/khGydgF6a0NwdP7VcHsfrlJfJveapmK12COsmx03n9Siw9cwheDfBq9gzNtm5GEqiDtKAnZjAmgZtIeDyOFgLtkp/WBFukGpR8W/gbi8x63E7uUsncl/HYQA5PE86k4b6hnFnwtcbRIXcTcyoAkdOiJEiI7t6aS0bYMRi7eVKfX7/seTmVl2A6YcL54lSqUFvjjkF7xr1dR42C5UQzMltaUdPlKPKdAsqXv68vQ8="
+
 install: true
 
 before_script:
@@ -17,66 +19,35 @@ before_script:
   - ci/createImage.py ${GRAFANA_VERSION}
   - docker volume create assets-fgbw
 
-script:
-  - ci/build_and_pack.sh armv6 armv7 arm64
+jobs:
+  include:
+    - &build
+      stage: build
+      env:
+        - ARM=armv6
+        - ARCH=armhf
+        - REPO=dummy
+      script:
+        - ci/build_and_pack.sh $ARM
+        - export DEB=`ls $ARM/grafana*.deb`
+        - export TARBALL=`ls $ARM/grafana*.tar.gz`
+        - echo $DEB $TARBALL
+        - >
+        curl -v -T $DEB \
+             -H "X-Bintray-Debian-Distribution:wheezy,jessie,stretch" \
+             -H "X-Bintray-Debian-Component:main" \
+             -H "X-Bintray-Debian-Architecture:${ARCH}" \
+             -H "X-Bintray-Publish: 1"
+             -ufg2it:${BINTRAY_TOKEN} \
+            https://api.bintray.com/content/fg2it/${REPO}/grafana-on-raspberry/${GRAFANA_VERSION}/main/g/$DEB
 
-after_success:
-  - export DEB6=`ls armv6/grafana*.deb`
-  - export TARBALL6=`ls armv6/grafana*.tar.gz`
-  - echo $DEB6 $TARBALL6
-  - export DEB7=`ls armv7/grafana*.deb`
-  - export TARBALL7=`ls armv7/grafana*.tar.gz`
-  - echo $DEB7 $TARBALL7
-  - export DEB64=`ls arm64/grafana*.deb`
-  - export TARBALL64=`ls arm64/grafana*.tar.gz`
-  - echo $DEB64 $TARBALL64
-  - ./ci/createDescriptionFile.py
-  - cat armv6.d
-  - cat armv7.d
-  - cat arm64.d
-
-deploy:
-  - edge:
-      branch: v1.8.47
-    provider: releases
-    api_key:
-      secure: LjYT1dj3oDB7jy66jW+sbo7TIN6z7dlJPlDydH0lT3r+3ihoEXzbE1t14MtiIf4oBtiHhFFJwFP/B6SyhCz8eFZh+8ozIUI+5BI5tz0dQD/q7LVTncP/UFR+z718Ggt34J4/K2clYnoRf1xAIz/whriZSimg58yn+nCM8soRo1iFaZ4IMnVNbDV8oV2k4ePOSymn63orAqY441P6XzmguIgISYoxgr22nLfws1YSUmB9xAhgMXmrOUofDVVLZnXHDPyxzL6trTGL1n4FHTFqGjK932DUOV3g6BjA7twB7ewIG035zL7/VqEvTkC4TQv5ZC7q5L0y4ifUEcqq1cpgBbfuJvsklYtgnubKaoVqiO4BRXSW9gM1frGv6MVegQBwM2/QR9BKxxxT9w6XIyfnNWim28mfGr0wvblSL7tIx3v4bboIL/8R9OkDpqp9LL+WxtgHnWmd3FRonhMJtm4F88775QsrwOZZecJmk6xQIpMjv3NKeHJFJvCgNcDtVfcR8eNqAYkGgjLD5iOiy7MQpc75fq5usR6p9rEBI4+UAhrVv3aLgK7lA8RHLyCkOzkyBoBeevRGdPN5exyqTMk1KxtFZu+3BDdYFC1JAFyHccfXfJyflOglabMdL51uvkBcs6gXx0G6sTxAjE9H+hFu6JMzSMgROwLyznoi5Ycvu9s=
-    file:
-      - $DEB7
-      - $TARBALL7
-      - $DEB64
-      - $TARBALL64
-    skip_cleanup: true
-    on:
-      tags: true
-      repo: fg2it/grafana-on-raspberry
-  - edge:
-      branch: v1.8.47
-    provider: bintray
-    file: armv6.d
-    user: fg2it
-    key:
-      secure: "FteIGr9J9B93Etvy5PmuAx5cZpB5sCt1Bn7FXf75zcAtWUMQEUHwqc995XrAjPrnFZ9yWMF1kInmRIg8ejbLx0PuBWBhJU60FPwRPm+2M2WM8Shc98DXPIm6A+xKC06yt8rU6/nyYyKrJBEf0kPiOHjnXE4rgqZaLVA+UbfSEuCVclmylxecZYNDvjIVJpDQghp6fCUhMqUjwO9UICZfl9ZhRXBeeZloUhR0qwF9orEtjW8usE6PDWl136tqAqBMQOe06Qz+n9JKPqAKIzdLOrviDKr8uDxA/ZPucuAHYCScq3IuRNwgdzgOKOvlVVDW5+uObEWahKEQHs8e7zC4fKdscq5CsZhuY0rVV8G6UNW3Hj69OL7gefiQ5Bd88QoF0X2/CFPe+5GngehpbMnIAg8iH55pEC5v516w4zaij4lyUlcY/o9foSre8YJaD5UlkfsGCj5HJiOnPLCK6l1rtxVTbol4GYq8+w5kWQhfHzfTp4GzUZuQS12K32kynDt3EV0To3VPpbTxK4+Bdw5BnEo+gYaV9/ynM6BiCqlnNUWi42JzUwpC1MFiesVuEaZ/IgtXeZM9/vnp1WgKZDwqDNfvvv7l+DaLI4h+kx7cgSi6EQraxOLBMu/i76CAh6SXunHIKyIhIo1FbQJ8n2HohTZ6bD3jIbnJz/KEqNkeCyA="
-    skip_cleanup: true
-    on:
-      tags: true
-  - edge:
-      branch: v1.8.47
-    provider: bintray
-    file: armv7.d
-    user: fg2it
-    key:
-      secure: "FteIGr9J9B93Etvy5PmuAx5cZpB5sCt1Bn7FXf75zcAtWUMQEUHwqc995XrAjPrnFZ9yWMF1kInmRIg8ejbLx0PuBWBhJU60FPwRPm+2M2WM8Shc98DXPIm6A+xKC06yt8rU6/nyYyKrJBEf0kPiOHjnXE4rgqZaLVA+UbfSEuCVclmylxecZYNDvjIVJpDQghp6fCUhMqUjwO9UICZfl9ZhRXBeeZloUhR0qwF9orEtjW8usE6PDWl136tqAqBMQOe06Qz+n9JKPqAKIzdLOrviDKr8uDxA/ZPucuAHYCScq3IuRNwgdzgOKOvlVVDW5+uObEWahKEQHs8e7zC4fKdscq5CsZhuY0rVV8G6UNW3Hj69OL7gefiQ5Bd88QoF0X2/CFPe+5GngehpbMnIAg8iH55pEC5v516w4zaij4lyUlcY/o9foSre8YJaD5UlkfsGCj5HJiOnPLCK6l1rtxVTbol4GYq8+w5kWQhfHzfTp4GzUZuQS12K32kynDt3EV0To3VPpbTxK4+Bdw5BnEo+gYaV9/ynM6BiCqlnNUWi42JzUwpC1MFiesVuEaZ/IgtXeZM9/vnp1WgKZDwqDNfvvv7l+DaLI4h+kx7cgSi6EQraxOLBMu/i76CAh6SXunHIKyIhIo1FbQJ8n2HohTZ6bD3jIbnJz/KEqNkeCyA="
-    skip_cleanup: true
-    on:
-      tags: true
-  - edge:
-      branch: v1.8.47
-    provider: bintray
-    file: arm64.d
-    user: fg2it
-    key:
-      secure: "FteIGr9J9B93Etvy5PmuAx5cZpB5sCt1Bn7FXf75zcAtWUMQEUHwqc995XrAjPrnFZ9yWMF1kInmRIg8ejbLx0PuBWBhJU60FPwRPm+2M2WM8Shc98DXPIm6A+xKC06yt8rU6/nyYyKrJBEf0kPiOHjnXE4rgqZaLVA+UbfSEuCVclmylxecZYNDvjIVJpDQghp6fCUhMqUjwO9UICZfl9ZhRXBeeZloUhR0qwF9orEtjW8usE6PDWl136tqAqBMQOe06Qz+n9JKPqAKIzdLOrviDKr8uDxA/ZPucuAHYCScq3IuRNwgdzgOKOvlVVDW5+uObEWahKEQHs8e7zC4fKdscq5CsZhuY0rVV8G6UNW3Hj69OL7gefiQ5Bd88QoF0X2/CFPe+5GngehpbMnIAg8iH55pEC5v516w4zaij4lyUlcY/o9foSre8YJaD5UlkfsGCj5HJiOnPLCK6l1rtxVTbol4GYq8+w5kWQhfHzfTp4GzUZuQS12K32kynDt3EV0To3VPpbTxK4+Bdw5BnEo+gYaV9/ynM6BiCqlnNUWi42JzUwpC1MFiesVuEaZ/IgtXeZM9/vnp1WgKZDwqDNfvvv7l+DaLI4h+kx7cgSi6EQraxOLBMu/i76CAh6SXunHIKyIhIo1FbQJ8n2HohTZ6bD3jIbnJz/KEqNkeCyA="
-    skip_cleanup: true
-    on:
-      tags: true
+    - <<: *build
+      env:
+        - ARM=armv7
+        - ARCH=armhf
+        - REPO=dummy        
+    - <<: *build
+      env:
+        - ARM=arm64
+        - ARCH=arm64
+        - REPO=dummy        
