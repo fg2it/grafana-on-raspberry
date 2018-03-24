@@ -13,7 +13,7 @@ install: true
 
 before_script:
   - docker pull debian:stretch
-  - docker pull fg2it/fpm:{FPM_VERSION}
+  - docker pull fg2it/fpm:${FPM_VERSION}
   - ci/createImage.py ${GRAFANA_VERSION}
   - docker volume create assets-fgbw
 
