@@ -4,6 +4,7 @@ set -x
 
 ASSETS=${ASSETS:-/tmp/assets}
 GRAFANA_VERSION=${GRAFANA_VERSION:-5.0.3}
+FPM_DOCKER_TAG=${FPM_DOCKER_TAG:-1.9.3}
 
 usage() {
   base="$(basename "$0")"
@@ -24,7 +25,7 @@ package_assets(){
           -C ${ASSETS}/tgz                                                 \
           grafana-${GRAFANA_VERSION}
 
-    docker run --rm -v assets-fgbw:${ASSETS} fg2it/fpm:1.9.3            \
+    docker run --rm -v assets-fgbw:${ASSETS} fg2it/fpm:${FPM_DOCKER_TAG}   \
       fpm -t deb -s dir --description Grafana -C ${ASSETS}/deb          \
       --vendor Grafana --url https://grafana.com --license "Apache 2.0" \
       --maintainer contact@grafana.com                                  \

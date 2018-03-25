@@ -8,14 +8,14 @@ env:
   global:
     - ASSETS=/tmp/assets
     - GRAFANA_VERSION=5.0.3
-    - FPM_VERSION=1.9.3
+    - FPM_DOCKER_TAG=1.9.3-2
     - secure: "uafOMoFQo4g7B0IH2Q6cbz+DbwzlRMBHrMr4tlg3DAQcLIORuC3ahwUWzyZ3JExhW20Yk03S2LdSYP70/tACLO1b4KIivISt+z9HcNwBRLJzG0lUQOQh33Fjj1+MGbXtKG9T35nbFmNXzSW7h+322lz4S1ssWXe6N4em0oNriN2UJfO++uiI52PYSSVJtSWhQivoylxI63Q9TSgdKWJtAdNmRwkSC9cfn0GoqoNBI5wIb1z3Jz+oDfK0LnPkreA77oO9l2my1Q0G0/PW4zYsa1IUKt0jBpyjqBbagBfB7uSmT3eNNOhHmBMQkoqp/v0RyebJMkkd8C+VenaTeHB88MeHqZDrOKRnc0vUo2VsBdx8+9QewDdo+M9wEjkz9kFEQmU3KAPKLkO2uoStivx2/dIdAcLnnB/60XoQH8qY4Eiy/XHGQ6h8/pLyNiY6lMcmDQ/khGydgF6a0NwdP7VcHsfrlJfJveapmK12COsmx03n9Siw9cwheDfBq9gzNtm5GEqiDtKAnZjAmgZtIeDyOFgLtkp/WBFukGpR8W/gbi8x63E7uUsncl/HYQA5PE86k4b6hnFnwtcbRIXcTcyoAkdOiJEiI7t6aS0bYMRi7eVKfX7/seTmVl2A6YcL54lSqUFvjjkF7xr1dR42C5UQzMltaUdPlKPKdAsqXv68vQ8="
 
 install: true
 
 before_script:
   - docker pull debian:stretch
-  - docker pull fg2it/fpm:${FPM_VERSION}
+  - docker pull fg2it/fpm:${FPM_DOCKER_TAG}
   - ci/createImage.py ${GRAFANA_VERSION}
   - docker volume create assets-fgbw
 

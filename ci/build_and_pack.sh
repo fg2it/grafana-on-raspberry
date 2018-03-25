@@ -4,6 +4,7 @@ set -x
 
 ASSETS=${ASSETS:-/tmp/assets}
 GRAFANA_VERSION=${GRAFANA_VERSION:-5.0.3}
+FPM_DOCKER_TAG=${FPM_DOCKER_TAG:-1.9.3}
 
 usage() {
   base="$(basename "$0")"
@@ -40,5 +41,5 @@ do
       ;;
   esac
   docker run --rm -v assets-fgbw:/tmp/assets/ fg2it/fgbw /build.sh ${ARM}
-  ci/package.sh ${ARM}
+  FPM_DOCKER_TAG=${FPM_DOCKER_TAG} ci/package.sh ${ARM}
 done
