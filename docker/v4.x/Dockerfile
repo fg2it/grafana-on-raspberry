@@ -31,4 +31,6 @@ EXPOSE 3000
 
 COPY ./run.sh /run.sh
 
+WORKDIR /
+
 ENTRYPOINT ["/run.sh"]
