@@ -6,6 +6,7 @@ ARG ASSETS=/tmp/assets
 ARG DEPTH=1
 
 ENV LABEL=v${GRAFANA_VERSION} \
+    GRAFANA_VERSION=${GRAFANA_VERSION} \
     DEPTH=${DEPTH} \
     PATH=/usr/local/go/bin:$PATH \
     GOPATH=/tmp/graf-build \
@@ -22,6 +23,7 @@ RUN chmod 700 /build.sh    && \
         curl                  \
         git                   \
         unzip                 \
+        zip                   \
         binutils              \
         gcc-6-cross-base      \
         libcc1-0              \
@@ -34,9 +36,10 @@ RUN chmod 700 /build.sh    && \
     curl -L https://s3-us-west-2.amazonaws.com/grafana-releases/release/grafana_${GRAFANA_VERSION}_amd64.deb \
          -o /tmp/grafana_${GRAFANA_VERSION}_amd64.deb                                                     && \
     dpkg-deb -R /tmp/grafana_${GRAFANA_VERSION}_amd64.deb ${ASSETS}/deb && \
-    mv ${ASSETS}/deb/DEBIAN ${ASSETS}/DEBIAN        && \
+    rm /tmp/grafana_${GRAFANA_VERSION}_amd64.deb  && \
+    mv ${ASSETS}/deb/DEBIAN ${ASSETS}/DEBIAN      && \
     curl -L https://s3-us-west-2.amazonaws.com/grafana-releases/release/grafana-${GRAFANA_VERSION}.linux-x64.tar.gz \
-      | tar -xz -C ${ASSETS}/tgz                && \
+      | tar -xz -C ${ASSETS}/tgz               && \
     cd $GOPATH/src/github.com/grafana          && \
     git clone -b ${LABEL} --depth ${DEPTH} --single-branch https://github.com/grafana/grafana.git && \
     cd $GOPATH/src/github.com/grafana/grafana  && \

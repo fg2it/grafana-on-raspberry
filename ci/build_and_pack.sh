@@ -10,11 +10,12 @@ usage() {
   base="$(basename "$0")"
   cat <<EOUSAGE
 usage: $base <arch>
-Build and package grafana (armv6, armv7 or arm64 on linux and win64) reusing offical assets
+Build and package grafana (armv6, armv7 or arm64 on linux, osx64 and win64) reusing offical assets
 Available arch:
   $base armv6
   $base armv7
   $base arm64
+  $base osx64
   $base win64 
 EOUSAGE
 }
@@ -26,23 +27,25 @@ if [[ -z `docker volume ls -q | grep assets-fgbw` ]]; then
   docker volume create assets-fgbw
 fi
 
-for ARM in "$@"
+for TARGET in "$@"
 do
-  case "$ARM" in
+  case "$TARGET" in
     armv6)
       ;;
     armv7)
       ;;
     arm64)
       ;;
+    osx64)
+      ;;
     win64)
       ;;      
     *)
-      echo >&2 'error: unknown arch:' "$ARM"
+      echo >&2 'error: unknown arch:' "$TARGET"
       usage >&2
       exit 1
       ;;
   esac
-  docker run --rm -v assets-fgbw:/tmp/assets/ fg2it/fgbw:all /build.sh ${ARM}
-  FPM_DOCKER_TAG=${FPM_DOCKER_TAG} ci/package.sh ${ARM}
+  docker run --rm -v assets-fgbw:/tmp/assets/ fg2it/fgbw:all /build.sh ${TARGET}
+  FPM_DOCKER_TAG=${FPM_DOCKER_TAG} ci/package.sh ${TARGET}
 done

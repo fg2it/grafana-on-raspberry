@@ -24,25 +24,37 @@ jobs:
     - &build
       stage: build
       env:
-        - ARM=armv6
+        - TARGET=armv6
         - ARCH=armhf
         - REPO=dummy
         - COMPONENT=main
       script:
-        - ci/build_and_pack.sh $ARM
-        - export DEB=`ls $ARM/grafana*.deb`
-        - export TARBALL=`ls $ARM/grafana*.tar.gz`
+        - ci/build_and_pack.sh $TARGET
+        - export DEB=`ls $TARGET/grafana*.deb`
+        - export TARBALL=`ls $TARGET/grafana*.tar.gz`
         - echo $DEB $TARBALL
         - ci/deploy.sh
     - <<: *build
       env:
-        - ARM=armv7
+        - TARGET=armv7
         - ARCH=armhf
         - REPO=dummy
         - COMPONENT=main
     - <<: *build
       env:
-        - ARM=arm64
+        - TARGET=arm64
         - ARCH=arm64
+        - REPO=dummy
+        - COMPONENT=main
+    - <<: *build
+      env:
+        - TARGET=osx64
+        - ARCH=osx64
+        - REPO=dummy
+        - COMPONENT=main
+    - <<: *build
+      env:
+        - TARGET=win64
+        - ARCH=win64
         - REPO=dummy
         - COMPONENT=main

@@ -10,19 +10,20 @@ usage() {
   base="$(basename "$0")"
   cat <<EOUSAGE
 usage: $base <arch>
-Package grafana (armv6, armv7 or arm64 on linux and win64) reusing offical assets
+Package grafana (armv6, armv7 or arm64 on linux, osx64 and win64) reusing offical assets
 Available arch:
   $base armv6
   $base armv7
   $base arm64
+  $base osx64
   $base win64
 EOUSAGE
 }
 
-package_assets(){
+arm_package_assets(){
     docker run --rm -v assets-fgbw:${ASSETS} debian:stretch                \
       tar cfz                                                              \
-          ${ASSETS}/${ARM}/grafana-${GRAFANA_VERSION}.linux-${ARCH}.tar.gz \
+          ${ASSETS}/${TARGET}/grafana-${GRAFANA_VERSION}.linux-${ARCH}.tar.gz \
           -C ${ASSETS}/tgz                                                 \
           grafana-${GRAFANA_VERSION}
 
@@ -36,41 +37,59 @@ package_assets(){
       --after-install ${ASSETS}/DEBIAN/postinst                         \
       --name grafana --version "${GRAFANA_VERSION}"                     \
       --deb-no-default-config-files -a ${ARCH}                          \
-      --depends adduser --depends libfontconfig -p ${ASSETS}/${ARM}/ .
+      --depends adduser --depends libfontconfig -p ${ASSETS}/${TARGET}/ .
 
-    docker run --name assets -v assets-fgbw:/tmp/assets/ debian:stretch echo "Extracting $ARM"
-    docker cp assets:${ASSETS}/${ARM} ./${ARM}
+    docker run --name assets -v assets-fgbw:/tmp/assets/ debian:stretch echo "Extracting $TARGET"
+    docker cp assets:${ASSETS}/${TARGET} ./${TARGET}
     docker rm assets
 }
 
-ARM=$1
+TARGET=$1
 
-if [ "$ARM" == "win64" ]; then
+
+osx64_package_assets(){
 #because zip not include in debian:stretch ...
-  docker run --rm -v assets-fgbw:${ASSETS} fuww/alpine-zip  /bin/sh -c  \
-      "cd ${ASSETS}/tgz/ && zip -r ${ASSETS}/${ARM}/grafana-${GRAFANA_VERSION}.windows-x64.zip grafana-${GRAFANA_VERSION}"
+  docker run --rm -v assets-fgbw:${ASSETS} fg2it/fgbw:all  /bin/sh -c  \
+      "cd ${ASSETS}/tgz/ && zip -r ${ASSETS}/${TARGET}/grafana-${GRAFANA_VERSION}.macosx-x64.zip grafana-${GRAFANA_VERSION}"
 
-  docker run --name assets -v assets-fgbw:/tmp/assets/ debian:stretch echo "Extracting $ARM"
-  docker cp assets:${ASSETS}/${ARM} ./${ARM}
+  docker run --name assets -v assets-fgbw:/tmp/assets/ debian:stretch echo "Extracting $TARGET"
+  docker cp assets:${ASSETS}/${TARGET} ./${TARGET}
   docker rm assets
-  exit 0
-fi
+}
 
-case "$ARM" in
+win64_package_assets(){
+#because zip not include in debian:stretch ...
+  docker run --rm -v assets-fgbw:${ASSETS} fg2it/fgbw:all  /bin/sh -c  \
+      "cd ${ASSETS}/tgz/ && zip -r ${ASSETS}/${TARGET}/grafana-${GRAFANA_VERSION}.windows-x64.zip grafana-${GRAFANA_VERSION}"
+
+  docker run --name assets -v assets-fgbw:/tmp/assets/ debian:stretch echo "Extracting $TARGET"
+  docker cp assets:${ASSETS}/${TARGET} ./${TARGET}
+  docker rm assets
+}
+
+case "$TARGET" in
   armv6)
     ARCH="armhf"
+    arm_package_assets
     ;;
   armv7)
     ARCH="armhf"
+    arm_package_assets
     ;;
   arm64)
     ARCH="arm64"
+    arm_package_assets
+    ;;
+  osx64)
+    osx64_package_assets
+    ;;
+  win64)
+    win64_package_assets
     ;;
   *)
-    echo >&2 'error: unknown arch:' "$ARM"
+    echo >&2 'error: unknown arch:' "$TARGET"
     usage >&2
     exit 1
     ;;
 esac
 
-package_assets
