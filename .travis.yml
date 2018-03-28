@@ -34,9 +34,7 @@ after_success:
   - cat arm64.d
 
 deploy:
-  - edge:
-      branch: v1.8.47
-    provider: releases
+  - provider: releases
     api_key:
       secure: LjYT1dj3oDB7jy66jW+sbo7TIN6z7dlJPlDydH0lT3r+3ihoEXzbE1t14MtiIf4oBtiHhFFJwFP/B6SyhCz8eFZh+8ozIUI+5BI5tz0dQD/q7LVTncP/UFR+z718Ggt34J4/K2clYnoRf1xAIz/whriZSimg58yn+nCM8soRo1iFaZ4IMnVNbDV8oV2k4ePOSymn63orAqY441P6XzmguIgISYoxgr22nLfws1YSUmB9xAhgMXmrOUofDVVLZnXHDPyxzL6trTGL1n4FHTFqGjK932DUOV3g6BjA7twB7ewIG035zL7/VqEvTkC4TQv5ZC7q5L0y4ifUEcqq1cpgBbfuJvsklYtgnubKaoVqiO4BRXSW9gM1frGv6MVegQBwM2/QR9BKxxxT9w6XIyfnNWim28mfGr0wvblSL7tIx3v4bboIL/8R9OkDpqp9LL+WxtgHnWmd3FRonhMJtm4F88775QsrwOZZecJmk6xQIpMjv3NKeHJFJvCgNcDtVfcR8eNqAYkGgjLD5iOiy7MQpc75fq5usR6p9rEBI4+UAhrVv3aLgK7lA8RHLyCkOzkyBoBeevRGdPN5exyqTMk1KxtFZu+3BDdYFC1JAFyHccfXfJyflOglabMdL51uvkBcs6gXx0G6sTxAjE9H+hFu6JMzSMgROwLyznoi5Ycvu9s=
     file:
@@ -48,9 +46,7 @@ deploy:
     on:
       tags: true
       repo: fg2it/grafana-on-raspberry
-  - edge:
-      branch: v1.8.47
-    provider: bintray
+  - provider: bintray
     file: armv6.d
     user: fg2it
     key:
@@ -58,9 +54,7 @@ deploy:
     skip_cleanup: true
     on:
       tags: true
-  - edge:
-      branch: v1.8.47
-    provider: bintray
+  - provider: bintray
     file: armv7.d
     user: fg2it
     key:
@@ -68,9 +62,7 @@ deploy:
     skip_cleanup: true
     on:
       tags: true
-  - edge:
-      branch: v1.8.47
-    provider: bintray
+  - provider: bintray
     file: arm64.d
     user: fg2it
     key:
