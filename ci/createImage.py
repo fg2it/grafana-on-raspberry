@@ -11,7 +11,7 @@ if version[0]=='v':
 d={'GRAFANA_VERSION' : version}
 
 buildArg = ' '.join( ['--build-arg {}={}'.format(k,v) for k,v in d.items()] )
-cmd =  'docker build {} -t fg2it/fgbw -f ci/Dockerfile ci'.format(buildArg)
+cmd =  'docker build {} -t fg2it/fgbw:all -f ci/Dockerfile ci'.format(buildArg)
 print( cmd )
 os.system( cmd )
   

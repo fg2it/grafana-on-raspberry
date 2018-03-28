@@ -21,6 +21,7 @@ RUN chmod 700 /build.sh    && \
         ca-certificates       \
         curl                  \
         git                   \
+        unzip                 \
         binutils              \
         gcc-6-cross-base      \
         libcc1-0              \

@@ -10,11 +10,12 @@ usage() {
   base="$(basename "$0")"
   cat <<EOUSAGE
 usage: $base <arch>
-Package grafana (armv6, armv7 or arm64) reusing offical assets
+Package grafana (armv6, armv7 or arm64 on linux and win64) reusing offical assets
 Available arch:
   $base armv6
   $base armv7
   $base arm64
+  $base win64
 EOUSAGE
 }
 
@@ -43,6 +44,17 @@ package_assets(){
 }
 
 ARM=$1
+
+if [ "$ARM" == "win64" ]; then
+#because zip not include in debian:stretch ...
+  docker run --rm -v assets-fgbw:${ASSETS} fuww/alpine-zip  /bin/sh -c  \
+      "cd ${ASSETS}/tgz/ && zip -r ${ASSETS}/${ARM}/grafana-${GRAFANA_VERSION}.windows-x64.zip grafana-${GRAFANA_VERSION}"
+
+  docker run --name assets -v assets-fgbw:/tmp/assets/ debian:stretch echo "Extracting $ARM"
+  docker cp assets:${ASSETS}/${ARM} ./${ARM}
+  docker rm assets
+  exit 0
+fi
 
 case "$ARM" in
   armv6)
