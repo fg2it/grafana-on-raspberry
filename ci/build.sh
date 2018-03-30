@@ -116,9 +116,16 @@ fix_assets(){
     cp $PHJS ${ASSETS}/deb/usr/share/grafana/tools/phantomjs/
   fi
 
-  cp ./bin/grafana-server ${ASSETS}/tgz/grafana-${GRAFANA_VERSION}/bin/grafana-server${EXE}
-  cp ./bin/grafana-cli ${ASSETS}/tgz/grafana-${GRAFANA_VERSION}/bin/grafana-cli${EXE}
-  cp $PHJS ${ASSETS}/tgz/grafana-${GRAFANA_VERSION}/tools/phantomjs/
+  tgzdir=${ASSETS}/tgz/grafana-${GRAFANA_VERSION}
+  rm ${tgzdir}/bin/*
+  for file in 'grafana-server' 'grafana-cli'
+  do
+    destfile=${tgzdir}/bin/${file}${EXE}
+    cp ./bin/${file} $destfile
+    md5sum ${destfile} | cut -d ' ' -f1 > ${destfile}.md5
+  done
+
+  cp $PHJS ${tgzdir}/tools/phantomjs/
 
   mkdir -p ${ASSETS}/${TARGET}
 }
