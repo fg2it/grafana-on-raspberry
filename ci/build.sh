@@ -91,7 +91,8 @@ build_bin() {
   if [ "$TARGET" == "arm64" ]; then
     PREF+="GOARCH=${TARGET}"
   elif [ "$TARGET" == "win64" ]; then
-    CGO_NTDEF="-D_WIN32_WINNT=0x0400"
+    #windows 7
+    CGO_NTDEF="-D_WIN32_WINNT=0x0601"
     PREF+="GOOS=windows GOARCH=amd64 CGO_CFLAGS=$CGO_NTDEF"
   elif [ "$TARGET" == "osx64" ]; then
     PREF+="GOOS=darwin GOARCH=amd64"
