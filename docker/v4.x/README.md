@@ -35,7 +35,7 @@ For example,
 ```
 
 The following documentation is a mere adaptation of the [official
-one](https://github.com/grafana/grafana-docker/tree/7eed5279e62fb1ebb78bef11e45e015cd09f4f0e).
+one](https://github.com/grafana/grafana-docker/blob/61f378236434fca515248c4012bb1414cc77386c/README.md).
 
 ## Caution
 
@@ -51,9 +51,20 @@ docker run -d --name=grafana -p 3000:3000 fg2it/grafana-armhf:<tag>
 
 Try it out, default admin user is admin/admin.
 
+In case port 3000 is closed for external clients or there is no access
+to the browser - you may test it by issuing:
+
+```bash
+curl -i localhost:3000/login
+```
+
+Make sure that you are getting "...200 OK" in response.
+After that continue testing by modifying your client request to grafana.
+
 ## Configuring your Grafana container
 
-All options defined in conf/grafana.ini can be overridden using the syntax `GF_<SectionName>_<KeyName>`. For example:
+All options defined in conf/grafana.ini can be overridden using environment
+variables by using the syntax `GF_<SectionName>_<KeyName>`. For example:
 
 ```bash
 docker run \
@@ -65,34 +76,17 @@ docker run \
   fg2it/grafana-armhf:<tag>
 ```
 
+You can use your own grafana.ini file by using environment variable `GF_PATHS_CONFIG`.
+
 More information in the grafana configuration [documentation](http://docs.grafana.org/installation/configuration/).
 
 ## Grafana container with persistent storage (recommended)
 
 ```bash
-# create /var/lib/grafana as persistent volume storage
-docker run -d -v /var/lib/grafana --name grafana-storage hypriot/armhf-busybox
+# create a persistent volume for your data in /var/lib/grafana (database and plugins)
+docker volume create --name grafana-storage
 
 # start grafana
-docker run \
-  -d \
-  -p 3000:3000 \
-  --name=grafana \
-  --volumes-from grafana-storage \
-  fg2it/grafana-armhf:<tag>
-```
-
-> This is the way recommended in the [grafana official documentation](https://github.com/grafana/grafana-docker/tree/7eed5279e62fb1ebb78bef11e45e015cd09f4f0e#grafana-container-with-persistent-storage-recommended).
-Nevertheless, at some point I found this sharp underrated
-[answer](http://serverfault.com/a/760244) to "docker volume container or
-docker volume?" on severfault which refers to
-[this](https://github.com/docker/docker/issues/20465) issue
-and [this](https://github.com/docker/docker/issues/17798) one (especially [this](https://github.com/docker/docker/issues/17798#issuecomment-154815207) post
-and [this](https://github.com/docker/docker/issues/17798#issuecomment-154820406)
-one). So, I would advise to stop using data volume containers and switch to data volumes using the `docker volume` command.
-
-```bash
-docker volume create --name grafana-storage
 docker run \
   -d \
   -p 3000:3000 \
@@ -100,13 +94,16 @@ docker run \
   -v grafana-storage:/var/lib/grafana \
   fg2it/grafana-armhf:<tag>
 ```
+Note: An unnamed volume will be created for you when you boot Grafana,
+using `docker volume create grafana-storage` just makes it easier to find
+by giving it a name.
 
 You need at least docker v1.9 for this. See the [data volume](https://docs.docker.com/engine/tutorials/dockervolumes/#/data-volumes)
 documentation on docker.
 
-## Installing plugins for Grafana (since v3)
+## Installing plugins for Grafana
 
-Pass the plugins you want installed to docker with the `GF_INSTALL_PLUGINS` environment variable as a comma seperated list. This will pass each plugin name to `grafana-cli plugins install ${plugin}`.
+Pass the plugins you want installed to docker with the `GF_INSTALL_PLUGINS` environment variable as a comma separated list. This will pass each plugin name to `grafana-cli plugins install ${plugin}`.
 
 ```bash
 docker run \
@@ -115,6 +112,24 @@ docker run \
   --name=grafana \
   -e "GF_INSTALL_PLUGINS=grafana-clock-panel,grafana-simple-json-datasource" \
   fg2it/grafana-armhf:<tag>
+```
+
+## Building a custom Grafana image with pre-installed plugins
+
+The `custom/` folder includes a `Dockerfile` that can be used to build a custom Grafana image. It accepts `GRAFANA_VERSION` and `GF_INSTALL_PLUGINS` as build arguments.
+
+Example of how to build and run:
+
+```bash
+cd custom
+docker build -t grafana:v5.0.4-with-plugins \
+  --build-arg "GRAFANA_VERSION=v5.0.4" \
+  --build-arg "GF_INSTALL_PLUGINS=grafana-clock-panel,grafana-simple-json-datasource" .
+docker run \
+  -d \
+  -p 3000:3000 \
+  --name=grafana \
+  grafana:v5.0.4-with-plugins
 ```
 
 ## Running specific version of Grafana
@@ -126,30 +141,6 @@ docker run \
   -p 3000:3000 \
   --name grafana \
   fg2it/grafana-armhf:v2.6.0
-```
-
-## Building a custom Grafana image with pre-installed plugins
-
-Dockerfile:
-
-```Dockerfile
-FROM fg2it/grafana:5.0.0
-ENV GF_PATHS_PLUGINS=/opt/grafana-plugins
-RUN mkdir -p $GF_PATHS_PLUGINS
-RUN grafana-cli --pluginsDir $GF_PATHS_PLUGINS plugins install grafana-clock-panel
-```
-
-Add lines with `RUN grafana-cli ...` for each plugin you wish to install in your custom image. Don't forget to specify what version of Grafana you wish to build from (replace 5.0.0 in the example).
-
-Example of how to build and run:
-
-```bash
-docker build -t grafana:5.0.0-custom .
-docker run \
-  -d \
-  -p 3000:3000 \
-  --name=grafana \
-  grafana:5.0.0-custom
 ```
 
 ## Configuring AWS credentials for CloudWatch support

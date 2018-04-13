@@ -123,7 +123,7 @@ if __name__ == "__main__" :
         print("""git tag   : {}
 grafana   : {}
 docker tag: {}
-base image: {}""".format(args.git_tag,
+dist      : {}""".format(args.git_tag,
                         pkg_name,
                         docker_tag,
                         args.release)
