@@ -1,11 +1,11 @@
-# grafana-on-raspberry (and experimental arm64) [![Release][release-svg]][release_url] [![Build Status][ci-svg]][ci-url]
+# grafana-on-raspberry (and arm64) [![Release][release-svg]][release_url] [![Build Status][ci-svg]][ci-url]
 
 [release-svg]: https://img.shields.io/github/release/fg2it/grafana-on-raspberry.svg
 [release_url]: https://github.com/fg2it/grafana-on-raspberry/releases/latest
 [ci-svg]: https://travis-ci.org/fg2it/grafana-on-raspberry.svg?branch=master
 [ci-url]: https://travis-ci.org/fg2it/grafana-on-raspberry
 
-> | raspberry pi 1 (armv6) | raspberry pi 2 and 3 (armv7) | arm64 (experimental) |
+> | raspberry pi 1 (armv6) | raspberry pi 2 and 3 (armv7) | arm64 |
 > | :---: | :---: | :---: |
 > | [ ![Download][pi1-svg] ][pi1-url] |  [ ![Download][pi2-svg] ][pi2-url] | [ ![Download][arm64-svg] ][arm64-url]
 
@@ -16,7 +16,7 @@
 [arm64-svg]: https://api.bintray.com/packages/fg2it/deb-arm64/grafana-on-raspberry/images/download.svg
 [arm64-url]: https://bintray.com/fg2it/deb-arm64/grafana-on-raspberry/_latestVersion
 
-[Grafana](http://grafana.org) *unofficial* packages for arm based raspberry pi (1, 2 and 3) with **experimental** support for arm64/aarch64 (debian/stretch should increase your chances).
+[Grafana](http://grafana.org) *unofficial* packages for arm based raspberry pi (1, 2 and 3) and arm64/aarch64.
 
 Grafana doesn't provide packages for arm, so the purpose of this repo is to provide notes
 on how you can build Grafana yourself and packages I build according to these notes.
@@ -34,8 +34,6 @@ Deb packages and tarballs are available from the github [release][release] secti
 ## `ci/`
 
 Notes and tools to crossbuild Grafana. Used to build on [travis](https://travis-ci.org/).
-
-> **experimental** support for arm64
 
 ## `docker/`
 

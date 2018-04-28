@@ -34,18 +34,13 @@ def descriptor(arch):
     "vcs_tag": name
   }
 
-  if arch == "arm64":
-    comp = 'experimental'
-  else:
-    comp = component
-
   _files = [
     {
       "includePattern": "{}/(.*\.deb$)".format(arch),
-      "uploadPattern": "{}/g/$1".format(comp),
+      "uploadPattern": "{}/g/$1".format(component),
       "matrixParams": {
         "deb_distribution": "wheezy,jessie,stretch",
-        "deb_component": comp,
+        "deb_component": component,
         "deb_architecture": darch[arch]
       }
     }
