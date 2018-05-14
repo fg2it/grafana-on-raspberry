@@ -9,7 +9,7 @@ ENV LABEL=${LABEL} \
     DEPTH=${DEPTH} \
     PATH=/usr/local/go/bin:$PATH \
     GOPATH=/tmp/graf-build \
-    NODEVERSION=6.9.2
+    NODEVERSION=6.14.1
 
 COPY ./build.sh /
 
