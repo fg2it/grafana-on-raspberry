@@ -31,6 +31,7 @@ RUN chmod 700 /build.sh  && \
         python              \
         ruby                \
         ruby-dev            \
+        rpm                 \
         xz-utils        &&  \
     gem install --no-ri --no-rdoc fpm          && \
     curl -sSL https://nodejs.org/dist/v${NODEVERSION}/node-v${NODEVERSION}-linux-x64.tar.xz    \
@@ -47,7 +48,6 @@ RUN chmod 700 /build.sh  && \
     GOVERSION=$(grep 'ENV GOLANG' scripts/build/Dockerfile | cut -d' ' -f3) && \
     curl -sSL https://storage.googleapis.com/golang/go${GOVERSION}.linux-amd64.tar.gz \
       | tar -xz -C /usr/local && \
-    go run build.go setup
-
+    go run build.go --includeBuildNumber=false build-frontend
 
 CMD ["/bin/bash"]

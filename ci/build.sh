@@ -43,14 +43,18 @@ arm64_install_cross() {
 build() {
   cd $GOPATH/src/github.com/grafana/grafana
   go run build.go                   \
-     -pkg-arch=${ARCH}              \
      -goarch=${ARM}                 \
      -cgo-enabled=1                 \
      -cc=$CC                        \
-     -phjs=${PHJS}                  \
      -includeBuildNumber=${includeBuildNumber} \
-         build                      \
-         pkg-deb
+         build
+  rm -f tools/phantomjs/phantomjs
+  cp ${PHJS} tools/phantomjs/phantomjs
+  ln -s $GOPATH/src/github.com/grafana/grafana/bin/linux-${ARM} $GOPATH/src/github.com/grafana/grafana/bin/linux-${ARCH}
+  go run build.go                   \
+     -pkg-arch=${ARCH}              \
+     -includeBuildNumber=${includeBuildNumber} \
+        package-only
 }
 
 
