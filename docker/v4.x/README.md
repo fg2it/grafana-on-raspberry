@@ -1,8 +1,22 @@
 # Unofficial Grafana Docker image for armhf
 
+---
+
+## **Warning Notice: End of Life**
+
+Starting from [v5.2.0-beta1](https://github.com/grafana/grafana/releases/tag/v5.2.0-beta1) Grafana introduced [official support](https://grafana.com/grafana/download/5.2.0-beta1?platform=arm) for armv7 and arm64 linux platforms. Many thanks to them for that.
+
+As a consequence, this repo is no more needed and stops support starting from v5.2.0-beta1.
+
+If you are using unofficial builds from this repo, you are invited to upgrade to official builds.
+
+> Should you need armv6 build, you are invited to ask official support.
+
+---
+
 > here v4.x stands for any of v4.0.0-beta[1-2], v4.0.[1-2], v4.1.0-beta1, v4.1.[0-2], v4.2.0-beta1, v4.2.0, v4.3.0-beta1, v4.3.[0-2], v4.4.[0-3], v4.5.0-beta1, v4.5.[0-2], v4.6.0-beta[1-3], v4.6.[0-3]
 >
-> ... and also v5.0.0-beta[1-5], v5.0.[0-3]
+> ... and also v5.0.0-beta[1-5], v5.0.[0-4] and v5.1.xx
 
 This project builds a Docker image with an unofficial grafana
 build for armhf available [here](https://github.com/fg2it/grafana-on-raspberry/releases/) and

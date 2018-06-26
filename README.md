@@ -1,5 +1,19 @@
 # grafana-on-raspberry (and arm64) [![Release][release-svg]][release_url] [![Build Status][ci-svg]][ci-url]
 
+---
+
+## **Warning Notice: End of Life**
+
+Starting from [v5.2.0-beta1](https://github.com/grafana/grafana/releases/tag/v5.2.0-beta1) Grafana introduced [official support](https://grafana.com/grafana/download/5.2.0-beta1?platform=arm) for armv7 and arm64 linux platforms. Many thanks to them for that.
+
+As a consequence, this repo is no more needed and stops support starting from v5.2.0-beta1.
+
+If you are using unofficial builds from this repo, you are invited to upgrade to official builds.
+
+> Should you need armv6 build, you are invited to ask official support.
+
+---
+
 [release-svg]: https://img.shields.io/github/release/fg2it/grafana-on-raspberry.svg
 [release_url]: https://github.com/fg2it/grafana-on-raspberry/releases/latest
 [ci-svg]: https://travis-ci.org/fg2it/grafana-on-raspberry.svg?branch=master
